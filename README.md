@@ -83,11 +83,11 @@ Run composer require laravel/sail in the laravel projects root directory
 
 ## Set up the .env file
 
-In the laravel root directory run cp .env.example .env and set the third line "APP_KEY" to "base64:MOj2OZCEP9jFuzvPremPlXsSstsatqD0iaZxA2IinBE=" and the DB settings like so:
+In the laravel root directory run cp .env.example .env and set the third line "APP_KEY" to "base64:t8wrIxDqXdNffCvNTSqfPL9r4/AKYtnS3tX0Gx0jhQA=" and the DB settings like so:
 DB_CONNECTION=mysql
 DB_HOST=mysql
 DB_PORT=3306
-DB_DATABASE=book-of-run
+DB_DATABASE=laravel
 DB_USERNAME=sail
 DB_PASSWORD=password
 
