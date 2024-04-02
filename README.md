@@ -87,7 +87,7 @@ In the laravel root directory run cp .env.example .env and set the third line "A
 DB_CONNECTION=mysql
 DB_HOST=mysql
 DB_PORT=3306
-DB_DATABASE=girav2
+DB_DATABASE=book-of-run
 DB_USERNAME=sail
 DB_PASSWORD=password
 
