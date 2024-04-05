@@ -1,10 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-
+import AnimalComponent from './components/AnimalComponent';
+import Login from './components/Authorize/Login';
+import Register from './components/Authorize/Register';
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>Sup marci</Text>
+      <Text style={{color: 'white'}}>Try book of shoot! 🎉</Text>
+      <Register/>
+      {/* <Login/> */}
       <StatusBar style="auto" />
     </View>
   );
@@ -13,8 +17,9 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#242424',
     alignItems: 'center',
     justifyContent: 'center',
+    color: 'white',
   },
 });
