@@ -5,8 +5,10 @@ import Svg, { Path } from 'react-native-svg';
 const Register = () => {
   const [isPasswordRevealed, setPasswordRevealed] = useState(false);
   const [errors, setErrors] = useState({}); 
+  const [success, setSuccess] = useState('');
   const [formData, setFormData] = useState({
     username: '',
+    email: '',
     password: '',
     confirm: ''
   });
@@ -22,8 +24,8 @@ const Register = () => {
     });
   };
 
-  const handleSubmit = () => { 
-    let newErrors = {}; 
+  const handleSubmit = async () => { 
+    const newErrors = {}; 
 
     if (!formData.username) {
         newErrors.username = 'Username is required.';
@@ -33,16 +35,16 @@ const Register = () => {
         newErrors.username = 'Username cannot exceed 15 characters.';
     } else if (!/^[a-zA-Z0-9]+$/.test(formData.username)) {
         newErrors.username = 'Username can only contain letters and numbers.';
-    } else {
-        newErrors.username = '';
+    }
+
+    if(!formData.email){
+      newErrors.email = 'Email is required';
     }
 
     if (!formData.password) { 
         newErrors.password = 'Password is required.'; 
     } else if (formData.password.length < 8) { 
         newErrors.password = 'Password must be at least 8 characters.'; 
-    } else{
-        newErrors.password = '';
     }
 
     if (!formData.confirm) { 
@@ -51,16 +53,39 @@ const Register = () => {
         newErrors.confirm = 'Confirm password must be at least 8 characters.'; 
     } else if (formData.confirm !== formData.password) {
         newErrors.confirm = 'Passwords do not match.';
-    } else{
-        newErrors.confirm = '';
     }
 
     setErrors(newErrors); 
+    console.log(Object.keys(newErrors).length);
+    console.log(newErrors);
     if(Object.keys(newErrors).length === 0){
-        console.log('Form submitted successfully!');
-        setErrors({});
+      console.log(1);
+        console.log(formData);
+        try {
+          const response = await fetch('http://localhost/api/register', {
+            method: 'POST',
+            headers: {
+              Accept: 'application/json',
+              "Access-Control-Allow-Methods": "POST",
+              "Access-Control-Allow-Origin": "*",
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(formData),
+          });
+          const responseData = await response.json();
+          if (!response.ok) {
+            console.log(responseData);
+            setErrors(responseData.errors);
+            setSuccess('');
+          } else {
+            setSuccess(responseData.message);
+          }
+        } catch (error) {
+          console.error('Error occurred:', error);
+        }
     }
   }
+  
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -70,6 +95,11 @@ const Register = () => {
             <Text style={{ marginTop: 4, marginBottom: 4, marginLeft: 5, color: 'white' }}>Username:</Text>
             <TextInput style={{ width: 300, height: 40, backgroundColor: '#323232', paddingHorizontal: 5, color: 'white', borderRadius: 8, borderWidth: 1,  borderColor: errors.username ? '#E42727' : 'transparent' }} placeholderTextColor="gray" placeholder='Username...' id='username' name='username' onChangeText={(text) => handleChange('username', text)} value={formData.username}></TextInput>
             {errors.username && <Text style={{ marginTop: 4, marginBottom: 4, marginLeft: 5, color: 'red' }}>{errors.username}</Text>}
+        </View>
+        <View style={{ margin: 2, }}>
+            <Text style={{ marginTop: 4, marginBottom: 4, marginLeft: 5, color: 'white' }}>Email:</Text>
+            <TextInput style={{ width: 300, height: 40, backgroundColor: '#323232', paddingHorizontal: 5, color: 'white', borderRadius: 8, borderWidth: 1,  borderColor: errors.email ? '#E42727' : 'transparent' }} placeholderTextColor="gray" placeholder='Email...' id='email' name='email' onChangeText={(email) => handleChange('email', email)} value={formData.email}></TextInput>
+            {errors.email && <Text style={{ marginTop: 4, marginBottom: 4, marginLeft: 5, color: 'red' }}>{errors.email}</Text>}
         </View>
         <View style={{ margin: 2, }}>
             <Text style={{ marginTop: 4, marginBottom: 4, marginLeft: 5, color: 'white' }}>Password:</Text>
