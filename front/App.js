@@ -1,14 +1,17 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import AnimalComponent from './components/AnimalComponent';
-import Login from './components/Authorize/Login';
-import Register from './components/Authorize/Register';
+import AuthorizeView from './views/AuthorizeView';
+import Home from './components/Home/Home';
+import { getToken } from './utils/storageUtils';
+
 export default function App() {
+  const isLoggedIn = getToken();
   return (
     <View style={styles.container}>
-      <Text style={{color: 'white'}}>Try book of shoot! 🎉</Text>
-      <Register/>
-      {/* <Login/> */}
+      {isLoggedIn ? 
+      <Home/> 
+      : 
+      <AuthorizeView/>}
       <StatusBar style="auto" />
     </View>
   );

@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Text, View, TextInput, TouchableOpacity, Pressable, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
-
-const Register = () => {
+const Register = ({ sendCard }) => {
   const [isPasswordRevealed, setPasswordRevealed] = useState(false);
   const [errors, setErrors] = useState({}); 
   const [success, setSuccess] = useState('');
@@ -54,15 +53,10 @@ const Register = () => {
     } else if (formData.confirm !== formData.password) {
         newErrors.confirm = 'Passwords do not match.';
     }
-
     setErrors(newErrors); 
-    console.log(Object.keys(newErrors).length);
-    console.log(newErrors);
     if(Object.keys(newErrors).length === 0){
-      console.log(1);
-        console.log(formData);
         try {
-          const response = await fetch('http://localhost/api/register', {
+          const response = await fetch('http://192.168.1.25/api/register', {   //get local ip running ipconfig getifaddr en0 in mac terminal or through network settings. Also can find in expo start terminal, under metro hosted ip.
             method: 'POST',
             headers: {
               Accept: 'application/json',
@@ -142,6 +136,12 @@ const Register = () => {
         <Pressable style={{backgroundColor: '#323232', width: 100, textAlign: 'center', margin: 2, marginTop: 8, marginBottom: 6, borderRadius: 6}} onPress={() => {handleSubmit()}}>
             <Text style={{color: 'white', margin: 2, textAlign: 'center', textTransform: 'uppercase', fontSize: 20,}}>Sign up</Text>
         </Pressable>
+        <View style={{ margin: 2, marginTop: 8, alignItems: 'center', justifyContent: 'center', display: 'flex' }}>
+          <View style={{ width: 290, backgroundColor: 'gray', height: 1}}></View>
+          <Pressable style={{ textAlign: 'center', margin: 2, marginTop: 6, marginBottom: 6, borderRadius: 6}} onPress={sendCard}>
+              <Text style={{color: 'white', margin: 2, textAlign: 'center', textTransform: 'uppercase', fontSize: 20,}}>Already have an account?</Text>
+          </Pressable>
+        </View>
     </View>
     </TouchableWithoutFeedback>
   );
