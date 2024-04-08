@@ -1,13 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import { Text, View, TextInput, TouchableOpacity, Pressable, TouchableWithoutFeedback, Keyboard } from 'react-native';
-import Svg, { Path } from 'react-native-svg';
+import React from 'react';
+import { Text, TouchableWithoutFeedback, Keyboard, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const Home = () => {
+  const navigation = useNavigation();
 
+  const goToLeaderboard = () => {
+    navigation.navigate('Leaderboard');
+  };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <Text style={{color: 'white',}}>I will return to home base.</Text>
+      <TouchableOpacity onPress={goToLeaderboard} style={{ padding: 10, backgroundColor: 'blue', borderRadius: 5 }}>
+        <Text style={{ color: 'white' }}>Go to Leaderboard</Text>
+      </TouchableOpacity>
     </TouchableWithoutFeedback>
   );
 };

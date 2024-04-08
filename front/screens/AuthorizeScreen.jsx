@@ -3,7 +3,7 @@ import { View, Animated, TouchableOpacity, Easing } from 'react-native';
 import Login from '../components/Authorize/Login';
 import Register from '../components/Authorize/Register';
 
-class AuthorizeView extends Component {
+class AuthorizeScreen extends Component {
   constructor(props) {
     super(props);
     this.animatedValue = new Animated.Value(0);
@@ -61,4 +61,4 @@ class AuthorizeView extends Component {
   }
 }
 
-export default AuthorizeView;
+export default AuthorizeScreen;
