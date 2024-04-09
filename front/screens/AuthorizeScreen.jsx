@@ -31,14 +31,15 @@ class AuthorizeScreen extends Component {
 
   render() {
     const { isFlipped } = this.state;
+    const { navigation, onLogin, setRandom } = this.props;
 
     const frontInterpolate = this.animatedValue.interpolate({
       inputRange: [0, 1],
-      outputRange: [-160, -600],
+      outputRange: [30, -400],
     });
     const backInterpolate = this.animatedValue.interpolate({
       inputRange: [0, 1],
-      outputRange: [250, -155],
+      outputRange: [400, 30],
     });
 
     const frontAnimatedStyle = {
@@ -49,9 +50,9 @@ class AuthorizeScreen extends Component {
     };
 
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#242424' }}>
         <Animated.View style={[{ position: 'absolute', backfaceVisibility: 'hidden', width: '100%', left: 0 }, frontAnimatedStyle]}>
-          <Login sendCard={this.slideBack}/>
+          <Login sendCard={this.slideBack} navigation={navigation} onLogin={onLogin} setRandom={setRandom}/>
         </Animated.View>
         <Animated.View style={[{ position: 'absolute', backfaceVisibility: 'hidden', width: '100%', left: 0 }, backAnimatedStyle]}>
           <Register sendCard={this.slideBack}/>

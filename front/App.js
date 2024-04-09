@@ -3,7 +3,8 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { getToken } from './utils/storageUtils';
+import { getToken, removeToken, storeToken } from './utils/storageUtils';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import AuthorizeScreen from './screens/AuthorizeScreen';
 import HomeScreen from './screens/HomeScreen';
@@ -11,16 +12,41 @@ import LeaderboardScreen from './screens/LeaderboardScreen';
 
 const Stack = createStackNavigator();
 export default function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(null);
+  const [token, setToken] = useState(null);
+  const [random, setRandom] = useState('');
 
   useEffect(() => {
     const checkLoginStatus = async () => {
-      const token = await getToken();
-      setIsLoggedIn(!!token);
+      const storedToken = await getToken();
+      setToken(storedToken);
+      setIsLoggedIn(!!storedToken);
     };
 
     checkLoginStatus();
   }, []);
+
+  // useEffect(() => {
+  //   const clearAsyncStorage = async () => {
+  //     try {
+  //       await AsyncStorage.clear();
+  //       console.log('AsyncStorage successfully cleared!');
+  //     } catch (error) {
+  //       console.error('Error clearing AsyncStorage:', error);
+  //     }
+  //   };
+  //   clearAsyncStorage();
+  // }, []);
+
+  const handleLogin = async () => {
+    // await storeToken(token);
+    // console.log(token, 'inside of handle login')
+    setIsLoggedIn(true);
+  };
+  const handleLogout = async () => {
+    setIsLoggedIn(false);
+    await removeToken();
+  };
 
   const Stack = createStackNavigator();
   return (
@@ -28,15 +54,27 @@ export default function App() {
       <Stack.Navigator>
         {isLoggedIn ? 
           <>
-            <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }}/>
-            <Stack.Screen name="Leaderboard" component={LeaderboardScreen} options={{ 
-          headerStyle: { backgroundColor: '#242424' }, // Change background color
-          headerTintColor: 'white', // Change text color
-        }}/>
+            <Stack.Screen
+              name="Home"
+              options={{
+                headerStyle: { backgroundColor: '#242424' },
+                headerTintColor: 'white',
+              }}
+            >
+              {(props) => <HomeScreen {...props} onLogout={handleLogout} isLoggedIn={isLoggedIn} random={random} />}
+            </Stack.Screen>
+            <Stack.Screen name="Leaderboard" component={LeaderboardScreen} options={{ headerStyle: { backgroundColor: '#242424' }, headerTintColor: 'white', }}/>
           {/* Add more screens here */}
           </>
         :
-          <Stack.Screen name="Authorize" component={AuthorizeScreen} />
+        <Stack.Screen name="Authorize"
+            options={{
+            headerStyle: { backgroundColor: '#242424' },
+            headerTintColor: 'white',
+          }}
+        >
+          {(props) => <AuthorizeScreen {...props} onLogin={handleLogin} setRandom={setRandom}/>}
+        </Stack.Screen>
         }
       </Stack.Navigator>
     </NavigationContainer>

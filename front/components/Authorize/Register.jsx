@@ -68,7 +68,7 @@ const Register = ({ sendCard }) => {
           });
           const responseData = await response.json();
           if (!response.ok) {
-            console.log(responseData);
+            // console.log(responseData);
             setErrors(responseData.errors);
             setSuccess('');
           } else {
@@ -136,6 +136,7 @@ const Register = ({ sendCard }) => {
         <Pressable style={{backgroundColor: '#323232', width: 100, textAlign: 'center', margin: 2, marginTop: 8, marginBottom: 6, borderRadius: 6}} onPress={() => {handleSubmit()}}>
             <Text style={{color: 'white', margin: 2, textAlign: 'center', textTransform: 'uppercase', fontSize: 20,}}>Sign up</Text>
         </Pressable>
+        {success && <Text style={{color: 'green', margin: 2, textAlign: 'center', textTransform: 'uppercase', fontSize: 16,}}>{success}</Text>}
         <View style={{ margin: 2, marginTop: 8, alignItems: 'center', justifyContent: 'center', display: 'flex' }}>
           <View style={{ width: 290, backgroundColor: 'gray', height: 1}}></View>
           <Pressable style={{ textAlign: 'center', margin: 2, marginTop: 6, marginBottom: 6, borderRadius: 6}} onPress={sendCard}>

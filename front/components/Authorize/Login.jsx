@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Text, View, TextInput, TouchableOpacity, Pressable, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 import { storeToken } from '../../utils/storageUtils.jsx';
-const Login = ({ sendCard }) => {
+const Login = ({ sendCard, navigation, onLogin, setRandom }) => {
   const [isPasswordRevealed, setPasswordRevealed] = useState(false);
   const [errors, setErrors] = useState({}); 
   const [formData, setFormData] = useState({
@@ -56,17 +56,17 @@ const Login = ({ sendCard }) => {
           });
           const responseData = await response.json();
           if (!response.ok) {
-            console.log(responseData);
-            console.log(responseData.error);
+            // console.log(responseData.error);
             if (responseData.error === 'Username is unrecognized') {
                 setErrors({ ...errors, username: 'User not found' });
             }else if (responseData.error === 'Password is not correct'){
               setErrors({ ...errors, password: 'Password is not correct' });
             }
           } else {
-            console.log(responseData);
-            console.log(responseData.access_token, 'this is the access token');
+            onLogin();
+            setRandom(responseData.access_token);
             storeToken(responseData.access_token);
+            navigation.navigate('Home');
           }
         } catch (error) {
           console.error('Error occurred:', error);

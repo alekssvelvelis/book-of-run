@@ -133,6 +133,7 @@ const styles = StyleSheet.create({
     },
     leaderboardPlayer: {
         marginTop: 4,
+        paddingVertical: 4,
         backgroundColor: '#bd84e8',
         display: 'flex',
         flexDirection: 'row',
