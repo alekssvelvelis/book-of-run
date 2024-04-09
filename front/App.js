@@ -14,7 +14,7 @@ const Stack = createStackNavigator();
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(null);
   const [token, setToken] = useState(null);
-  const [random, setRandom] = useState('');
+  const [loginToken, setLoginToken] = useState('');
 
   useEffect(() => {
     const checkLoginStatus = async () => {
@@ -61,7 +61,7 @@ export default function App() {
                 headerTintColor: 'white',
               }}
             >
-              {(props) => <HomeScreen {...props} onLogout={handleLogout} isLoggedIn={isLoggedIn} random={random} />}
+              {(props) => <HomeScreen {...props} onLogout={handleLogout} isLoggedIn={isLoggedIn} loginToken={loginToken} />}
             </Stack.Screen>
             <Stack.Screen name="Leaderboard" component={LeaderboardScreen} options={{ headerStyle: { backgroundColor: '#242424' }, headerTintColor: 'white', }}/>
           {/* Add more screens here */}
@@ -73,7 +73,7 @@ export default function App() {
             headerTintColor: 'white',
           }}
         >
-          {(props) => <AuthorizeScreen {...props} onLogin={handleLogin} setRandom={setRandom}/>}
+          {(props) => <AuthorizeScreen {...props} onLogin={handleLogin} setLoginToken={setLoginToken}/>}
         </Stack.Screen>
         }
       </Stack.Navigator>

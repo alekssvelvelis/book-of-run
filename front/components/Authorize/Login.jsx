@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Text, View, TextInput, TouchableOpacity, Pressable, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 import { storeToken } from '../../utils/storageUtils.jsx';
-const Login = ({ sendCard, navigation, onLogin, setRandom }) => {
+const Login = ({ sendCard, navigation, onLogin, setLoginToken }) => {
   const [isPasswordRevealed, setPasswordRevealed] = useState(false);
   const [errors, setErrors] = useState({}); 
   const [formData, setFormData] = useState({
@@ -64,7 +64,7 @@ const Login = ({ sendCard, navigation, onLogin, setRandom }) => {
             }
           } else {
             onLogin();
-            setRandom(responseData.access_token);
+            setLoginToken(responseData.access_token);
             storeToken(responseData.access_token);
             navigation.navigate('Home');
           }

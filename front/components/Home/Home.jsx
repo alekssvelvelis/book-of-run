@@ -2,29 +2,26 @@ import React from 'react';
 import { Text, View, TouchableWithoutFeedback, Keyboard, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { removeToken } from '../../utils/storageUtils';
-const Home = ({ onLogout, isLoggedIn, random}) => {
+const Home = ({ onLogout, isLoggedIn, loginToken}) => {
  
     const navigation = useNavigation();
     const goToLeaderboard = () => {
         navigation.navigate('Leaderboard');
     };
-    console.log(random);
+    console.log(loginToken);
     const handleLogout = async () => {
-        console.log(random);
+        console.log(loginToken);
         try {
             const response = await fetch('http://192.168.1.25/api/logout', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${random}`,
+                    'Authorization': `Bearer ${loginToken}`,
                 },
             });
-
             if (response.ok) {
                 onLogout();
-                console.log(random, 'pre remove token');
                 removeToken();
-                console.log(random, 'post remove token');
                 console.log('Logged out');
                 navigation.navigate('Authorize');
             } else {
