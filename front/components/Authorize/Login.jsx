@@ -23,7 +23,7 @@ const Login = ({ sendCard, navigation, onLogin, setLoginToken }) => {
 
   const handleSubmit = async () => { 
     const newErrors = {}; 
-
+    
     if (!formData.username) {
         newErrors.username = 'Username is required.';
     } else if (formData.username.length < 3) {
@@ -34,17 +34,18 @@ const Login = ({ sendCard, navigation, onLogin, setLoginToken }) => {
         newErrors.username = 'Username can only contain letters and numbers.';
     }
 
-
     if (!formData.password) { 
         newErrors.password = 'Password is required.'; 
     } else if (formData.password.length < 8) { 
         newErrors.password = 'Password must be at least 8 characters.'; 
     }
 
-    setErrors(newErrors); 
+    setErrors(newErrors);
     if(Object.keys(newErrors).length === 0){
+      console.log(Object.keys(newErrors).length, 'length in login');
+      const backendErrors = {};
         try {
-          const response = await fetch('http://192.168.1.25/api/login', {   //get local ip running ipconfig getifaddr en0 in mac terminal or through network settings. Also can find in expo start terminal, under metro hosted ip.
+          const response = await fetch('http://10.13.6.169/api/login', {   //get local ip running ipconfig getifaddr en0 in mac terminal or through network settings. Also can find in expo start terminal, under metro hosted ip.
             method: 'POST',
             headers: {
               Accept: 'application/json',
@@ -56,12 +57,12 @@ const Login = ({ sendCard, navigation, onLogin, setLoginToken }) => {
           });
           const responseData = await response.json();
           if (!response.ok) {
-            // console.log(responseData.error);
             if (responseData.error === 'Username is unrecognized') {
-                setErrors({ ...errors, username: 'User not found' });
+              backendErrors.username = 'User not found';
             }else if (responseData.error === 'Password is not correct'){
-              setErrors({ ...errors, password: 'Password is not correct' });
+              backendErrors.password = 'Password is wrong';
             }
+            setErrors(backendErrors);
           } else {
             onLogin();
             setLoginToken(responseData.access_token);

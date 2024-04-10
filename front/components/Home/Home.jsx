@@ -8,11 +8,14 @@ const Home = ({ onLogout, isLoggedIn, loginToken}) => {
     const goToLeaderboard = () => {
         navigation.navigate('Leaderboard');
     };
+    const goToProfile = () => {
+        navigation.navigate('Profile');
+    };
     console.log(loginToken);
     const handleLogout = async () => {
         console.log(loginToken);
         try {
-            const response = await fetch('http://192.168.1.25/api/logout', {
+            const response = await fetch('http://10.13.6.169/api/logout', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -35,8 +38,11 @@ const Home = ({ onLogout, isLoggedIn, loginToken}) => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View>
-            <TouchableOpacity onPress={goToLeaderboard} style={{ padding: 10, backgroundColor: 'blue', borderRadius: 5, marginBottom: 10 }}>
+            <TouchableOpacity onPress={goToLeaderboard} style={{ padding: 10, backgroundColor: 'blue', borderRadius: 5, marginBottom: 10, alignItems: 'center' }}>
                 <Text style={{ color: 'white' }}>Go to Leaderboard</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={goToProfile} style={{ padding: 10, backgroundColor: 'blue', borderRadius: 5, marginBottom: 10, alignItems: 'center' }}>
+                <Text style={{ color: 'white' }}>Go to Profile</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={handleLogout} style={{ padding: 10, backgroundColor: 'blue', borderRadius: 5, alignItems: 'center' }}>
                 <Text style={{ color: 'white' }}>Log out</Text>

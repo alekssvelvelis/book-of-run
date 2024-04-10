@@ -53,10 +53,10 @@ const Register = ({ sendCard }) => {
     } else if (formData.confirm !== formData.password) {
         newErrors.confirm = 'Passwords do not match.';
     }
-    setErrors(newErrors); 
+    setErrors({...errors, ...newErrors}); 
     if(Object.keys(newErrors).length === 0){
         try {
-          const response = await fetch('http://192.168.1.25/api/register', {   //get local ip running ipconfig getifaddr en0 in mac terminal or through network settings. Also can find in expo start terminal, under metro hosted ip.
+          const response = await fetch('http://10.13.6.169/api/register', {   //get local ip running ipconfig getifaddr en0 in mac terminal or through network settings. Also can find in expo start terminal, under metro hosted ip.
             method: 'POST',
             headers: {
               Accept: 'application/json',
@@ -73,6 +73,7 @@ const Register = ({ sendCard }) => {
             setSuccess('');
           } else {
             setSuccess(responseData.message);
+            setErrors({});
           }
         } catch (error) {
           console.error('Error occurred:', error);
