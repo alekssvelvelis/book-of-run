@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View, TouchableWithoutFeedback, Keyboard, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { removeToken } from '../../utils/storageUtils';
+import { removeToken, getToken } from '../../utils/storageUtils';
 const Home = ({ onLogout, isLoggedIn, loginToken}) => {
  
     const navigation = useNavigation();
@@ -11,15 +11,15 @@ const Home = ({ onLogout, isLoggedIn, loginToken}) => {
     const goToProfile = () => {
         navigation.navigate('Profile');
     };
-    console.log(loginToken);
     const handleLogout = async () => {
-        console.log(loginToken);
+        const logoutToken = await getToken();
+        console.log('logout token', logoutToken);
         try {
-            const response = await fetch('http://10.13.6.169/api/logout', {
+            const response = await fetch('http://10.13.6.232/api/logout', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${loginToken}`,
+                    'Authorization': `Bearer ${logoutToken}`,
                 },
             });
             if (response.ok) {
