@@ -56,7 +56,7 @@ const Register = ({ sendCard }) => {
     setErrors({...errors, ...newErrors}); 
     if(Object.keys(newErrors).length === 0){
         try {
-          const response = await fetch('http://10.13.6.232/api/register', {   //get local ip running ipconfig getifaddr en0 in mac terminal or through network settings. Also can find in expo start terminal, under metro hosted ip.
+          const response = await fetch('http://10.13.0.234/api/register', {   //get local ip running ipconfig getifaddr en0 in mac terminal or through network settings. Also can find in expo start terminal, under metro hosted ip.
             method: 'POST',
             headers: {
               Accept: 'application/json',

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Text, View, TextInput, Pressable, TouchableWithoutFeedback, Keyboard, ScrollView, StyleSheet, Animated } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 import { getToken } from '../../utils/storageUtils';
+import ChangePasswordModal from './ChangePasswordModal';
 
 const Profile = () => {
   const [isPasswordRevealed, setPasswordRevealed] = useState(false);
@@ -34,7 +35,7 @@ const Profile = () => {
     const getUserData = async () => {
       const token = await getToken();
       try {
-        const response = await fetch('http://10.13.6.232/api/getUserData', {
+        const response = await fetch('http://10.13.0.234/api/getUserData', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -83,7 +84,7 @@ const Profile = () => {
     if(Object.keys(newErrors).length === 0){
       try {
         const token = await getToken();
-        const response = await fetch('http://10.13.6.232/api/updateUserData', {
+        const response = await fetch('http://10.13.0.234/api/updateUserData', {
           method: 'PUT',
           headers: {
             Accept: 'application/json',
@@ -149,9 +150,11 @@ const Profile = () => {
             <Animated.View style={[{opacity: fadeAnim}]}>
               {success && <Text style={{ marginTop: 4, marginBottom: 4, marginLeft: 5, color: 'green' }}>{success}</Text>}
             </Animated.View>
+            <Text style={{color: 'white', margin: 4, textAlign: 'center', textTransform: 'uppercase', fontSize: 20,}}>Change password</Text>
           </View>
         </>
       </TouchableWithoutFeedback>
+      <ChangePasswordModal/>
     </ScrollView>
   );
 };

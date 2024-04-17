@@ -15,7 +15,7 @@ const Home = ({ onLogout, isLoggedIn, loginToken}) => {
         const logoutToken = await getToken();
         console.log('logout token', logoutToken);
         try {
-            const response = await fetch('http://10.13.6.232/api/logout', {
+            const response = await fetch('http://10.13.0.234/api/logout', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

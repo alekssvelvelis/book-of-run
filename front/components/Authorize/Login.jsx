@@ -45,7 +45,7 @@ const Login = ({ sendCard, navigation, onLogin, setLoginToken }) => {
       console.log(Object.keys(newErrors).length, 'length in login');
       const backendErrors = {};
         try {
-          const response = await fetch('http://10.13.6.232/api/login', {   //get local ip running ipconfig getifaddr en0 in mac terminal or through network settings. Also can find in expo start terminal, under metro hosted ip.
+          const response = await fetch('http://10.13.0.234/api/login', {   //get local ip running ipconfig getifaddr en0 in mac terminal or through network settings. Also can find in expo start terminal, under metro hosted ip.
             method: 'POST',
             headers: {
               Accept: 'application/json',
