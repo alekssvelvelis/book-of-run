@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -27,67 +26,53 @@ export default function App() {
     checkLoginStatus();
   }, []);
 
-  // useEffect(() => {
-  //   const clearAsyncStorage = async () => {
-  //     try {
-  //       await AsyncStorage.clear();
-  //       console.log('AsyncStorage successfully cleared!');
-  //     } catch (error) {
-  //       console.error('Error clearing AsyncStorage:', error);
-  //     }
-  //   };
-  //   clearAsyncStorage();
-  // }, []);
-
   const handleLogin = async () => {
-    // await storeToken(token);
-    // console.log(token, 'inside of handle login')
     setIsLoggedIn(true);
   };
+
   const handleLogout = async () => {
     setIsLoggedIn(false);
     await removeToken();
   };
 
-  const Stack = createStackNavigator();
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        {isLoggedIn ? 
-          <>
-            <Stack.Screen
-              name="Home"
+    <View style={styles.container}>
+      <NavigationContainer>
+        <Stack.Navigator>
+          {isLoggedIn ? 
+            <>
+              <Stack.Screen
+                name="Home"
+                options={{
+                  headerStyle: { backgroundColor: '#242424' },
+                  headerTintColor: 'white',
+                }}
+              >
+                {(props) => <HomeScreen {...props} onLogout={handleLogout} isLoggedIn={isLoggedIn} loginToken={loginToken} />}
+              </Stack.Screen>
+              <Stack.Screen name="Leaderboard" component={LeaderboardScreen} options={{ headerStyle: { backgroundColor: '#242424' }, headerTintColor: 'white', }}/>
+              <Stack.Screen name="Profile" component={ProfileScreen} options={{ headerStyle: { backgroundColor: '#242424' }, headerTintColor: 'white', }}/>
+            {/* Add more screens here */}
+            </>
+          :
+          <Stack.Screen name="Authorize"
               options={{
-                headerStyle: { backgroundColor: '#242424' },
-                headerTintColor: 'white',
-              }}
-            >
-              {(props) => <HomeScreen {...props} onLogout={handleLogout} isLoggedIn={isLoggedIn} loginToken={loginToken} />}
-            </Stack.Screen>
-            <Stack.Screen name="Leaderboard" component={LeaderboardScreen} options={{ headerStyle: { backgroundColor: '#242424' }, headerTintColor: 'white', }}/>
-            <Stack.Screen name="Profile" component={ProfileScreen} options={{ headerStyle: { backgroundColor: '#242424' }, headerTintColor: 'white', }}/>
-          {/* Add more screens here */}
-          </>
-        :
-        <Stack.Screen name="Authorize"
-            options={{
-            headerStyle: { backgroundColor: '#242424' },
-            headerTintColor: 'white',
-          }}
-        >
-          {(props) => <AuthorizeScreen {...props} onLogin={handleLogin} setLoginToken={setLoginToken}/>}
-        </Stack.Screen>
-        }
-      </Stack.Navigator>
-    </NavigationContainer>
+              headerStyle: { backgroundColor: '#242424' },
+              headerTintColor: 'white',
+            }}
+          >
+            {(props) => <AuthorizeScreen {...props} onLogin={handleLogin} setLoginToken={setLoginToken}/>}
+          </Stack.Screen>
+          }
+        </Stack.Navigator>
+      </NavigationContainer>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#242424',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: 'red'
   },
 });

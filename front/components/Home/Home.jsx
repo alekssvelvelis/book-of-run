@@ -1,9 +1,9 @@
 import React from 'react';
-import { Text, View, TouchableWithoutFeedback, Keyboard, TouchableOpacity } from 'react-native';
+import { Text, View, Image, TouchableWithoutFeedback, Keyboard, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { removeToken, getToken } from '../../utils/storageUtils';
 const Home = ({ onLogout, isLoggedIn, loginToken}) => {
- 
+    
     const navigation = useNavigation();
     const goToLeaderboard = () => {
         navigation.navigate('Leaderboard');
@@ -15,7 +15,7 @@ const Home = ({ onLogout, isLoggedIn, loginToken}) => {
         const logoutToken = await getToken();
         console.log('logout token', logoutToken);
         try {
-            const response = await fetch('http://10.13.0.234/api/logout', {
+            const response = await fetch('http://192.168.1.24/api/logout', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -36,16 +36,20 @@ const Home = ({ onLogout, isLoggedIn, loginToken}) => {
     };
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View>
-            <TouchableOpacity onPress={goToLeaderboard} style={{ padding: 10, backgroundColor: 'blue', borderRadius: 5, marginBottom: 10, alignItems: 'center' }}>
-                <Text style={{ color: 'white' }}>Go to Leaderboard</Text>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} style={{flex: 1,}}>
+        <View style={{flex: 1, justifyContent: 'center'}}>
+            <Image source={require('../../assets/play.png')} />
+            <TouchableOpacity onPress={goToLeaderboard} style={{ marginTop: 4, marginBottom: 4}}>
+                <Image source={require('../../assets/leaderboard.png')} />
             </TouchableOpacity>
-            <TouchableOpacity onPress={goToProfile} style={{ padding: 10, backgroundColor: 'blue', borderRadius: 5, marginBottom: 10, alignItems: 'center' }}>
-                <Text style={{ color: 'white' }}>Go to Profile</Text>
+            <TouchableOpacity onPress={goToProfile} style={{ marginTop: 4, marginBottom: 4}}>
+                <Image source={require('../../assets/profile.png')} />
             </TouchableOpacity>
-            <TouchableOpacity onPress={handleLogout} style={{ padding: 10, backgroundColor: 'blue', borderRadius: 5, alignItems: 'center' }}>
-                <Text style={{ color: 'white' }}>Log out</Text>
+            <TouchableOpacity  style={{ marginTop: 4, marginBottom: 4}}>
+                <Image source={require('../../assets/shop.png')} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={handleLogout} style={{ marginTop: 4, marginBottom: 4}}>
+                <Image source={require('../../assets/logout.png')} />
             </TouchableOpacity>
         </View>
     </TouchableWithoutFeedback>

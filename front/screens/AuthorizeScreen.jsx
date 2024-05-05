@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { View, Animated, TouchableOpacity, Easing } from 'react-native';
 import Login from '../components/Authorize/Login';
 import Register from '../components/Authorize/Register';
-
 class AuthorizeScreen extends Component {
   constructor(props) {
     super(props);
@@ -50,7 +49,7 @@ class AuthorizeScreen extends Component {
     };
 
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#242424' }}>
+      <View style={{ flex: 1, justifyContent: 'center', backgroundColor: '#242424',}}>
         <Animated.View style={[{ position: 'absolute', backfaceVisibility: 'hidden', width: '100%', left: 0 }, frontAnimatedStyle]}>
           <Login sendCard={this.slideBack} navigation={navigation} onLogin={onLogin} setLoginToken={setLoginToken}/>
         </Animated.View>

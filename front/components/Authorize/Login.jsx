@@ -45,7 +45,7 @@ const Login = ({ sendCard, navigation, onLogin, setLoginToken }) => {
       console.log(Object.keys(newErrors).length, 'length in login');
       const backendErrors = {};
         try {
-          const response = await fetch('http://10.13.0.234/api/login', {   //get local ip running ipconfig getifaddr en0 in mac terminal or through network settings. Also can find in expo start terminal, under metro hosted ip.
+          const response = await fetch('http://192.168.1.24/api/login', {   //get local ip running ipconfig getifaddr en0 in mac terminal or through network settings. Also can find in expo start terminal, under metro hosted ip.
             method: 'POST',
             headers: {
               Accept: 'application/json',
@@ -76,7 +76,8 @@ const Login = ({ sendCard, navigation, onLogin, setLoginToken }) => {
   }
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} style={{flex: 1,}}>
+      <>
     <View style={{ width: 320, backgroundColor: '#181818', display: 'flex', alignItems: 'center', marginTop: 20, color: 'white', borderRadius: 20 }}>
         <Text style={{ textAlign: 'center', color: 'white', textTransform: 'uppercase', fontSize: 24, marginTop: 8,}}>Login</Text>
         <View style={{ margin: 2, }}>
@@ -113,6 +114,7 @@ const Login = ({ sendCard, navigation, onLogin, setLoginToken }) => {
           </Pressable>
         </View>
     </View>
+    </>
     </TouchableWithoutFeedback>
   );
 };

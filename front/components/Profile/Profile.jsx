@@ -3,9 +3,15 @@ import { Text, View, TextInput, Pressable, TouchableWithoutFeedback, Keyboard, S
 import Svg, { Path } from 'react-native-svg';
 import { getToken } from '../../utils/storageUtils';
 import ChangePasswordModal from './ChangePasswordModal';
+import GameHistory from './GameHistory';
+import { Dimensions } from 'react-native';
+
+const screenWidth = Dimensions.get('window').width;
 
 const Profile = () => {
   const [isPasswordRevealed, setPasswordRevealed] = useState(false);
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [scrollEnabled, setScrollEnabled] = useState(true);
   const [usernameLength, setNameLength] = useState(0);
   const [errors, setErrors] = useState({}); 
   const [success, setSuccess] = useState('');
@@ -13,6 +19,10 @@ const Profile = () => {
     username: '',
     email: ''
   });
+
+  useEffect(() => {
+    setScrollEnabled(!isModalOpen);
+  }, [isModalOpen]);
 
   const fadeAnim = useRef(new Animated.Value(1)).current;
 
@@ -31,11 +41,15 @@ const Profile = () => {
     setNameLength(value.length);
   };
 
+  const handleToggleModal = () => {
+    setModalOpen(!isModalOpen);
+  };
+
   useEffect(() => {
     const getUserData = async () => {
       const token = await getToken();
       try {
-        const response = await fetch('http://10.13.0.234/api/getUserData', {
+        const response = await fetch('http://192.168.1.24/api/getUserData', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -78,13 +92,13 @@ const Profile = () => {
     if (!formData.email) { 
       newErrors.email = 'Email is required.'; 
     }
-
     setErrors(newErrors);
     setSuccess('');
+
     if(Object.keys(newErrors).length === 0){
       try {
         const token = await getToken();
-        const response = await fetch('http://10.13.0.234/api/updateUserData', {
+        const response = await fetch('http://192.168.1.24/api/updateUserData', {
           method: 'PUT',
           headers: {
             Accept: 'application/json',
@@ -114,13 +128,14 @@ const Profile = () => {
   }
 
   return (
-    <ScrollView contentContainerStyle={styles.scrollViewContainer}>
+    <View style={{ flex: 1, alignItems: 'center', }}>
+    <ScrollView contentContainerStyle={[styles.scrollViewContainer, { width: screenWidth }]} scrollEnabled={scrollEnabled}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <>
           <Text style={[styles.heading, styles.profileHeading]}>Your profile</Text>
           <Text style={styles.heading}>See everything you can do below</Text>
           <View style={styles.changeProfileData}>
-            <View style={{ margin: 2, }}>
+            <View style={{ margin: 2, justifyContent: 'center', alignItems: 'center' }}>
               <Text style={{ marginTop: 4, marginBottom: 4, marginLeft: 5, color: 'white' }}>Username:</Text>
               <View style={{position: 'relative',}}>
                 <TextInput
@@ -150,12 +165,15 @@ const Profile = () => {
             <Animated.View style={[{opacity: fadeAnim}]}>
               {success && <Text style={{ marginTop: 4, marginBottom: 4, marginLeft: 5, color: 'green' }}>{success}</Text>}
             </Animated.View>
-            <Text style={{color: 'white', margin: 4, textAlign: 'center', textTransform: 'uppercase', fontSize: 20,}}>Change password</Text>
+            <Text onPress={handleToggleModal} style={{color: 'white', margin: 4, textAlign: 'center', textTransform: 'uppercase', fontSize: 20,}}>Change password</Text>
           </View>
+          <GameHistory/>
         </>
       </TouchableWithoutFeedback>
-      <ChangePasswordModal/>
+      {isModalOpen && <ChangePasswordModal toggleModal={handleToggleModal}/>}
+      
     </ScrollView>
+    </View>
   );
 };
 
@@ -183,9 +201,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#181818', 
     display: 'flex', 
     alignItems: 'center', 
+    justifyContent: 'center',
     marginTop: 20, 
     color: 'white', 
     borderRadius: 20,
+    marginLeft: 30
   },
   textLengthCounter: {
     position: 'absolute',
