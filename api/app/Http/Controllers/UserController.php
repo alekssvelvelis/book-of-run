@@ -42,7 +42,8 @@ class UserController extends Controller
             return response()->json(['error' => 'Password is not correct'], 401);
         }
     }
-
+  
+  
     public function register(Request $request)
     {
         Log::info($request->all());
@@ -63,9 +64,16 @@ class UserController extends Controller
             'password' => Hash::make($request->input('confirm')),
         ]);
 
+        $token = $user->createToken('authToken')->plainTextToken;
+
         return response()->json([
             'message' => 'User registered successfully',
+            'access_token' => $token,
         ], 201);
+
+        // return response()->json([
+        //      'message' => 'test',
+        // ], 201);
     }
 
     public function logout(Request $request)

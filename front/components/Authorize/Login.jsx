@@ -38,6 +38,24 @@ const Login = ({ sendCard, navigation, onLogin, setLoginToken }) => {
         newErrors.password = 'Password is required.'; 
     } else if (formData.password.length < 8) { 
         newErrors.password = 'Password must be at least 8 characters.'; 
+    } else {
+        newErrors.password = '';
+    }
+
+    if (!formData.confirm) { 
+        newErrors.confirm = 'Confirm password is required.'; 
+    } else if (formData.confirm.length < 8) { 
+        newErrors.confirm = 'Confirm password must be at least 8 characters.'; 
+    } else if (formData.confirm !== formData.password) {
+        newErrors.confirm = 'Passwords do not match.';
+    } else {
+        newErrors.confirm = '';
+    }
+
+    setErrors(newErrors); 
+    if(Object.keys(newErrors).length === 0){
+        console.log('Form submitted successfully!');
+        setErrors({});
     }
 
     setErrors(newErrors);
@@ -118,4 +136,5 @@ const Login = ({ sendCard, navigation, onLogin, setLoginToken }) => {
     </TouchableWithoutFeedback>
   );
 };
+
 export default Login;

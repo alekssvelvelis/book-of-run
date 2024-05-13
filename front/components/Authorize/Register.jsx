@@ -53,6 +53,16 @@ const Register = ({ sendCard }) => {
     } else if (formData.confirm !== formData.password) {
         newErrors.confirm = 'Passwords do not match.';
     }
+
+    setErrors(newErrors); 
+    console.log(Object.keys(newErrors).length);
+    console.log(newErrors);
+    if(Object.keys(newErrors).length === 0){
+      console.log(1);
+        console.log(formData);
+        try {
+          const response = await fetch('http://localhost/api/register', {
+
     setErrors({...errors, ...newErrors}); 
     if(Object.keys(newErrors).length === 0){
         try {
@@ -68,7 +78,7 @@ const Register = ({ sendCard }) => {
           });
           const responseData = await response.json();
           if (!response.ok) {
-            // console.log(responseData);
+            console.log(responseData);
             setErrors(responseData.errors);
             setSuccess('');
           } else {
