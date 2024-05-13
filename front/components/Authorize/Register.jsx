@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Text, View, TextInput, TouchableOpacity, Pressable, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
-
-const Register = () => {
+const Register = ({ sendCard }) => {
   const [isPasswordRevealed, setPasswordRevealed] = useState(false);
   const [errors, setErrors] = useState({}); 
   const [success, setSuccess] = useState('');
@@ -63,6 +62,11 @@ const Register = () => {
         console.log(formData);
         try {
           const response = await fetch('http://localhost/api/register', {
+
+    setErrors({...errors, ...newErrors}); 
+    if(Object.keys(newErrors).length === 0){
+        try {
+          const response = await fetch('http://192.168.1.24/api/register', {   //get local ip running ipconfig getifaddr en0 in mac terminal or through network settings. Also can find in expo start terminal, under metro hosted ip.
             method: 'POST',
             headers: {
               Accept: 'application/json',
@@ -79,6 +83,7 @@ const Register = () => {
             setSuccess('');
           } else {
             setSuccess(responseData.message);
+            setErrors({});
           }
         } catch (error) {
           console.error('Error occurred:', error);
@@ -88,12 +93,12 @@ const Register = () => {
   
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} style={{margin: 20}}>
     <View style={{ width: 320, backgroundColor: '#181818', display: 'flex', alignItems: 'center', marginTop: 20, color: 'white', borderRadius: 20 }}>
         <Text style={{ textAlign: 'center', color: 'white', textTransform: 'uppercase', fontSize: 24, marginTop: 8,}}>Register</Text>
         <View style={{ margin: 2, }}>
             <Text style={{ marginTop: 4, marginBottom: 4, marginLeft: 5, color: 'white' }}>Username:</Text>
-            <TextInput style={{ width: 300, height: 40, backgroundColor: '#323232', paddingHorizontal: 5, color: 'white', borderRadius: 8, borderWidth: 1,  borderColor: errors.username ? '#E42727' : 'transparent' }} placeholderTextColor="gray" placeholder='Username...' id='username' name='username' onChangeText={(text) => handleChange('username', text)} value={formData.username}></TextInput>
+            <TextInput style={{ width: 300, height: 40, backgroundColor: '#323232', paddingHorizontal: 5, color: 'white', borderRadius: 8, borderWidth: 1,  borderColor: errors.username ? '#E42727' : 'transparent' }} placeholderTextColor="gray" placeholder='Username...' id='username' name='username' onChangeText={(text) => handleChange('username', text)} value={formData.username} maxLength={15}></TextInput>
             {errors.username && <Text style={{ marginTop: 4, marginBottom: 4, marginLeft: 5, color: 'red' }}>{errors.username}</Text>}
         </View>
         <View style={{ margin: 2, }}>
@@ -142,6 +147,13 @@ const Register = () => {
         <Pressable style={{backgroundColor: '#323232', width: 100, textAlign: 'center', margin: 2, marginTop: 8, marginBottom: 6, borderRadius: 6}} onPress={() => {handleSubmit()}}>
             <Text style={{color: 'white', margin: 2, textAlign: 'center', textTransform: 'uppercase', fontSize: 20,}}>Sign up</Text>
         </Pressable>
+        {success && <Text style={{color: 'green', margin: 2, textAlign: 'center', textTransform: 'uppercase', fontSize: 16,}}>{success}</Text>}
+        <View style={{ margin: 2, marginTop: 8, alignItems: 'center', justifyContent: 'center', display: 'flex' }}>
+          <View style={{ width: 290, backgroundColor: 'gray', height: 1}}></View>
+          <Pressable style={{ textAlign: 'center', margin: 2, marginTop: 6, marginBottom: 6, borderRadius: 6}} onPress={sendCard}>
+              <Text style={{color: 'white', margin: 2, textAlign: 'center', textTransform: 'uppercase', fontSize: 20,}}>Already have an account?</Text>
+          </Pressable>
+        </View>
     </View>
     </TouchableWithoutFeedback>
   );
