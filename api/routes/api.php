@@ -3,6 +3,10 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PaymentController;
+use Laravel\Sanctum\Http\Controllers\CsrfCookieController;
+use Laravel\Sanctum\Http\Controllers\SanctumController;
+use App\Http\Controllers\UserController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,8 +18,23 @@ use App\Http\Controllers\PaymentController;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+Route::get('/createPaymentIntent', [PaymentController::class, 'createPaymentIntent']);
+
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/createPaymentIntent', [PaymentController::class, 'createPaymentIntent']);
+Route::post('/register', [UserController::class, 'register']);
+
+Route::get('/test', [UserController::class, 'test']);
+
+Route::post('/login', [UserController::class, 'login']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    // Your authenticated routes here
+    Route::post('/logout', [UserController::class, 'logout']);
+    Route::get('/getUserData', [UserController::class, 'getUserData']);
+    Route::put('/updateUserData', [UserController::class, 'updateUserData']);
+    Route::put('/updateUserPassword', [UserController::class, 'updateUserPassword']);
+});
+
