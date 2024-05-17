@@ -8,6 +8,7 @@ use Laravel\Sanctum\Http\Controllers\SanctumController;
 use App\Http\Controllers\ScoreController;
 use App\Http\Controllers\UserController;
 
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -19,7 +20,6 @@ use App\Http\Controllers\UserController;
 |
 */
 
-Route::get('/createPaymentIntent', [PaymentController::class, 'createPaymentIntent']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -35,11 +35,19 @@ Route::get('/scores', [ScoreController::class, 'scores']);
 
 Route::post('/login', [UserController::class, 'login']);
 
+Route::post('/asdasdasd', [PaymentController::class, 'makeMargungijs']);
+
+
+Route::get('/testtest', [PaymentController::class, 'returnCoins']);
+
 Route::middleware('auth:sanctum')->group(function () {
     // Your authenticated routes here
     Route::post('/logout', [UserController::class, 'logout']);
     Route::get('/getUserData', [UserController::class, 'getUserData']);
     Route::put('/updateUserData', [UserController::class, 'updateUserData']);
     Route::put('/updateUserPassword', [UserController::class, 'updateUserPassword']);
+    Route::get('/getUserCoin', [UserController::class, 'getUserCoin']);
+    Route::get('/createPaymentIntent', [PaymentController::class, 'createPaymentIntent']);
+
 });
 

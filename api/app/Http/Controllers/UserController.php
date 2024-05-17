@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use App\Models\Coin;
 
 use App\Models\User;
 
@@ -42,8 +43,8 @@ class UserController extends Controller
             return response()->json(['error' => 'Password is not correct'], 401);
         }
     }
-  
-  
+
+
     public function register(Request $request)
     {
         Log::info($request->all());
@@ -63,6 +64,11 @@ class UserController extends Controller
             'name' => $request->input('username'),
             'password' => Hash::make($request->input('confirm')),
         ]);
+
+        Coin::create([[
+            'user' => $user->id,
+            'coins' => 0
+        ]]);
 
         $token = $user->createToken('authToken')->plainTextToken;
 
@@ -140,7 +146,7 @@ class UserController extends Controller
                 'newPassword' => 'required|min:8',
                 'confirmNewPassword' => 'required|min:8|same:newPassword',
             ]);
-    
+
             if ($validator->fails()) {
                 return response()->json(['errors' => $validator->errors()], 422);
             }
@@ -161,5 +167,15 @@ class UserController extends Controller
             Log::error($e->getMessage());
             return response()->json(['error' => 'Internal Server Error'], 500);
         }
+    }
+
+    public function getUserCoin(Request $request){
+//        $bearerToken = $request->bearerToken();
+//        $user = $request->user();
+//        Log::info($user);
+//        Log::info($bearerToken);
+        return response()->json([
+           'user' => User::with('coin')->where('id', $request->user()->id)->first()
+        ], 200);
     }
 }

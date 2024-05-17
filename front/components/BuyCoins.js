@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Alert } from 'react-native';
 import { useStripe, StripeProvider, usePaymentSheet} from "@stripe/stripe-react-native";
+import {getToken} from "../utils/storageUtils";
 
 const BuyCoinsComponent = () => {
-
     const { initPaymentSheet, presentPaymentSheet } = useStripe();
     const [loading, setLoading] = useState(false);
     const [paymentInProcess, setPaymentInProcess] = useState(false);
@@ -15,15 +15,22 @@ const BuyCoinsComponent = () => {
         { id: 3 , amount: 7000, price: 399, value: '3,99 EUR' },
         { id: 4 , amount: 13000, price: 599, value: '5,99 EUR' },
         { id: 5 , amount: 30000, price: 999, value: '9,99 EUR' },
-        // Add more coins data as needed
     ];
+
+    function getAmountForPrice(price) {
+        const coinData = coinsData.find(coin => coin.price === price);
+        return coinData ? coinData.amount : null;
+    }
         const fetchPaymentSheetParams = async (value) => {
-            const response = await fetch(`http://172.20.10.3/api/createPaymentIntent?price=${value}`, {
+            const token = await getToken()
+            const response = await fetch(`http://172.20.10.2/api/createPaymentIntent?price=${value}&coins=${coinsData.find(coin => coin.price === value)?.amount}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
                 },
             });
+
             const { paymentIntent, ephemeralKey, customer} = await response.json();
 
             return {
@@ -32,6 +39,8 @@ const BuyCoinsComponent = () => {
                 customer,
             };
         };
+
+
 
         const initializePaymentSheet = async (value) => {
             const {

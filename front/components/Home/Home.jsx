@@ -1,8 +1,14 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { Text, View, Image, TouchableWithoutFeedback, Keyboard, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { removeToken, getToken } from '../../utils/storageUtils';
+import { useFonts } from "expo-font";
 const Home = ({ onLogout, isLoggedIn, loginToken}) => {
+    const [coins, setCoins] = useState('');
+
+    const [fontsLoaded, fontError] = useFonts({
+        'VT': require('../../assets/fonts/VT323-Regular.ttf'),
+    });
     const navigation = useNavigation();
     const goToLeaderboard = () => {
         navigation.navigate('Leaderboard');
@@ -14,6 +20,12 @@ const Home = ({ onLogout, isLoggedIn, loginToken}) => {
     const goToGame = () => {
         navigation.navigate('Game');
     }
+
+    const goToBuy = () => {
+        navigation.navigate('Buy');
+    }
+
+
     const handleLogout = async () => {
         const logoutToken = await getToken();
         console.log('logout token', logoutToken);
@@ -38,9 +50,44 @@ const Home = ({ onLogout, isLoggedIn, loginToken}) => {
         }
     };
 
+
+
+    useEffect(() => {
+        const handleLogout = async () => {
+            const logoutToken = await getToken();
+            console.log('logout token', logoutToken);
+            try {
+                const response = await fetch('http://172.20.10.2/api/getUserCoin', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${logoutToken}`,
+                    },
+                });
+                if (response.ok) {
+
+                    const responseData = await response.json();
+
+                    setCoins(responseData['user']['coin'][0]["coins"])
+
+                    console.log('Logged out', responseData['user']['coin'][0]["coins"]);
+                } else {
+                    console.error('Logout failed:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Error during logout:', error.message);
+            }
+        };
+
+        handleLogout();
+    }, [coins]);
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} style={{flex: 1}}>
         <View style={{flex: 1, justifyContent: 'center'}}>
+            <TouchableOpacity onPress={goToBuy} style={{ position: 'absolute', top: 6, right: -24, marginTop: 4, marginBottom: 4}}>
+                <Text style={{color: 'white', fontSize: 32, fontWeight: 400, fontFamily: "VT"}}>BUY - {coins}</Text>
+            </TouchableOpacity>
             <TouchableOpacity onPress={goToGame} style={{ marginTop: 4, marginBottom: 4}}>
                 <Image source={require('../../assets/play.png')} />
             </TouchableOpacity>
