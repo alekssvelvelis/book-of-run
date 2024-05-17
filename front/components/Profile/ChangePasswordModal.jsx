@@ -4,7 +4,6 @@ import Svg, { Path } from 'react-native-svg';
 import { getToken } from '../../utils/storageUtils.jsx';
 import { Dimensions } from 'react-native';
 const screenWidth = Dimensions.get('window').width;
-const screenHeight = Dimensions.get('window').height;
 
 const ChangePasswordModal = ({toggleModal}) => {
     const [isPasswordRevealed, setPasswordRevealed] = useState(false);
@@ -52,7 +51,7 @@ const ChangePasswordModal = ({toggleModal}) => {
             console.log(Object.keys(newErrors).length, 'length in change password');
             try {
                 const token = await getToken();
-                const response = await fetch('http://10.13.3.53/api/updateUserPassword', {
+                const response = await fetch('http://10.13.6.174/api/updateUserPassword', {
                   method: 'PUT',
                   headers: {
                     Accept: 'application/json',

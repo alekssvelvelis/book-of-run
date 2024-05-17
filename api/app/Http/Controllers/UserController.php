@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Log;
 use App\Models\Coin;
 
 use App\Models\User;
+use App\Modles\Upgrade;
 
 class UserController extends Controller
 {
@@ -63,6 +64,11 @@ class UserController extends Controller
             'email' => $request->input('email'),
             'name' => $request->input('username'),
             'password' => Hash::make($request->input('confirm')),
+        ]);
+
+        $upgrades = Upgrade::create([
+            'user_id' => $user->id,
+            'hearts' => 3
         ]);
 
         Coin::create([[
