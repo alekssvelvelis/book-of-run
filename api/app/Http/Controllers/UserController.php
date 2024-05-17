@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use App\Models\Coin;
 
 use App\Models\User;
 use App\Modles\Upgrade;
@@ -44,6 +45,7 @@ class UserController extends Controller
         }
     }
 
+
     public function register(Request $request)
     {
         Log::info($request->all());
@@ -69,10 +71,21 @@ class UserController extends Controller
             'hearts' => 3
         ]);
 
+        Coin::create([[
+            'user' => $user->id,
+            'coins' => 0
+        ]]);
+
+        $token = $user->createToken('authToken')->plainTextToken;
 
         return response()->json([
             'message' => 'User registered successfully',
+            'access_token' => $token,
         ], 201);
+
+        // return response()->json([
+        //      'message' => 'test',
+        // ], 201);
     }
 
     public function logout(Request $request)
@@ -139,7 +152,7 @@ class UserController extends Controller
                 'newPassword' => 'required|min:8',
                 'confirmNewPassword' => 'required|min:8|same:newPassword',
             ]);
-    
+
             if ($validator->fails()) {
                 return response()->json(['errors' => $validator->errors()], 422);
             }
@@ -160,5 +173,15 @@ class UserController extends Controller
             Log::error($e->getMessage());
             return response()->json(['error' => 'Internal Server Error'], 500);
         }
+    }
+
+    public function getUserCoin(Request $request){
+//        $bearerToken = $request->bearerToken();
+//        $user = $request->user();
+//        Log::info($user);
+//        Log::info($bearerToken);
+        return response()->json([
+           'user' => User::with('coin')->where('id', $request->user()->id)->first()
+        ], 200);
     }
 }

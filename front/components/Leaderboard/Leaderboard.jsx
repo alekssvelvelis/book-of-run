@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
 
 function Leaderboard() {
@@ -19,7 +19,10 @@ function Leaderboard() {
         { username: 'User14', score: 40 },
     ];
 
-    const sortedData = dummyData.sort((a, b) => b.score - a.score);
+    const [userData, setUserData] = useState([]);
+
+    // Sorting the dummy data by score
+    const sortedData = userData.sort((a, b) => b.score - a.score);
 
     // Dividing the sorted data into tiers
     const tiers = {
@@ -43,6 +46,42 @@ function Leaderboard() {
             tiers['Bronze'].push(user);
         }
     });
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch('http://172.20.10.2/api/scores', {
+                    method: 'GET',
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to make API request');
+                }
+
+                const responseData = await response.json();
+
+                // Extract data array from response
+                const dataArray = responseData.data;
+
+                // Create an array with desired format
+                const formattedData = dataArray.map(item => ({
+                    username: item.user[0].name,
+                    score: item.score,
+                    hood: item.hood
+                }));
+
+                // Now 'formattedData' contains the array of formatted data
+                setUserData(formattedData)
+            } catch (error) {
+                console.error('API request failed:', error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+
+    console.log(userData)
 
     return (
         <ScrollView contentContainerStyle={styles.scrollViewContainer}>

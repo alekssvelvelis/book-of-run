@@ -24,7 +24,9 @@ const Register = ({ sendCard }) => {
   };
 
   const handleSubmit = async () => { 
-    const newErrors = {}; 
+    const newErrors = {};
+
+    console.log(formData)
 
     if (!formData.username) {
         newErrors.username = 'Username is required.';
@@ -53,10 +55,24 @@ const Register = ({ sendCard }) => {
     } else if (formData.confirm !== formData.password) {
         newErrors.confirm = 'Passwords do not match.';
     }
-    setErrors({...errors, ...newErrors}); 
+
+    // setErrors(newErrors);
+    // console.log(Object.keys(newErrors).length);
+    // console.log(newErrors);
+    // if(Object.keys(newErrors).length === 0){
+    //   console.log(1);
+    //     console.log(formData);
+    //     try {
+    //       const response = await fetch('http://localhost/api/register', {
+
+    setErrors({...errors, ...newErrors});
+
+    console.log(errors)
     if(Object.keys(newErrors).length === 0){
+
+        console.log("here")
         try {
-          const response = await fetch('http://10.13.6.174/api/register', {   //get local ip running ipconfig getifaddr en0 in mac terminal or through network settings. Also can find in expo start terminal, under metro hosted ip.
+          const response = await fetch('http://172.20.10.2/api/register', {   //get local ip running ipconfig getifaddr en0 in mac terminal or through network settings. Also can find in expo start terminal, under metro hosted ip.
             method: 'POST',
             headers: {
               Accept: 'application/json',
@@ -68,7 +84,7 @@ const Register = ({ sendCard }) => {
           });
           const responseData = await response.json();
           if (!response.ok) {
-            // console.log(responseData);
+            console.log(responseData);
             setErrors(responseData.errors);
             setSuccess('');
           } else {

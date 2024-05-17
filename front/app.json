@@ -15,7 +15,12 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "config": {
+        "universalLinks": {
+          "ios": "your-app://buycoins"
+        }
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -25,6 +30,14 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      [
+        "expo-font",
+        {
+          "fonts": ["./assets/fonts/VT323-Regular.ttf"]
+        }
+      ]
+    ]
   }
 }

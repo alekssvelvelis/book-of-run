@@ -40,12 +40,32 @@ const Login = ({ sendCard, navigation, onLogin, setLoginToken }) => {
         newErrors.password = 'Password must be at least 8 characters.'; 
     }
 
+    // if (!formData.confirm) {
+    //     newErrors.confirm = 'Confirm password is required.';
+    // } else if (formData.confirm.length < 8) {
+    //     newErrors.confirm = 'Confirm password must be at least 8 characters.';
+    // } else if (formData.confirm !== formData.password) {
+    //     newErrors.confirm = 'Passwords do not match.';
+    // } else {
+    //     newErrors.confirm = '';
+    // }
+
+    // setErrors(newErrors);
+    // if(Object.keys(newErrors).length === 0){
+    //     console.log('Form submitted successfully!');
+    //     setErrors({});
+    // }
+
+    console.log(formData)
+
     setErrors(newErrors);
     if(Object.keys(newErrors).length === 0){
+
+      console.log('here')
       console.log(Object.keys(newErrors).length, 'length in login');
       const backendErrors = {};
         try {
-          const response = await fetch('http://10.13.8.183/api/login', {   //get local ip running ipconfig getifaddr en0 in mac terminal or through network settings. Also can find in expo start terminal, under metro hosted ip.
+          const response = await fetch('http://172.20.10.2/api/login', {   //get local ip running ipconfig getifaddr en0 in mac terminal or through network settings. Also can find in expo start terminal, under metro hosted ip.
             method: 'POST',
             headers: {
               Accept: 'application/json',
@@ -118,4 +138,5 @@ const Login = ({ sendCard, navigation, onLogin, setLoginToken }) => {
     </TouchableWithoutFeedback>
   );
 };
+
 export default Login;
