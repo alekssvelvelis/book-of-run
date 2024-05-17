@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import {StyleSheet, View, Image, Dimensions, Text, AppState, ImageBackground} from 'react-native';
+import {StyleSheet, View, Image, Dimensions, Text, AppState, ImageBackground, TouchableOpacity} from 'react-native';
 import {
     Gesture,
     GestureDetector,
@@ -15,7 +15,7 @@ import { useFonts } from "expo-font";
 const END_POSITION = 120;
 const { height, width } = Dimensions.get('window');
 
-export default function App() {
+export default function Game() {
     const [enemies, setEnemies] = useState([]);
     const onLeft = useSharedValue(true);
     const enemyInterval = useRef(null);
@@ -23,14 +23,16 @@ export default function App() {
     const [heart, setHeart] = useState(3);
     const [gameOver, setGameOver] = useState(false);
     const [appStateVisible, setAppStateVisible] = useState(AppState.currentState);
+    const [appState, setAppState] = useState(AppState.currentState);
     const [enemiesReached100, setEnemiesReached100] = useState([]); // New state variable
     const [collidedEnemies, setCollidedEnemies] = useState([]);
     const enemyIdCounter = useRef(0);
     const [collisionPosition, setCollisionPosition] = useState({}); // State variable to store collision position
     const [explosionPlayed, setExplosionPlayed] = useState(false)
+    const [gamePaused, setGamePaused] = useState(false);
     const [multiplier, setMultiplier] = useState(1)
     const [fontsLoaded, fontError] = useFonts({
-        'VT': require('./assets/fonts/VT323-Regular.ttf'),
+        'VT': require('../assets/fonts/VT323-Regular.ttf'),
     });
 
     const position = useSharedValue(0);
@@ -61,41 +63,89 @@ export default function App() {
         return () => {
             clearInterval(enemyInterval.current);
         };
-    }, []);
+    }, [gameOver]);
+
+    const resetGame = () => {
+        setEnemies([]);
+        setScore(0);
+        setHeart(3);
+        setGameOver(false);
+        setEnemiesReached100([]);
+        setCollidedEnemies([]);
+        enemyIdCounter.current = 0;
+        setCollisionPosition({});
+        setExplosionPlayed(false);
+        setGamePaused(false);
+        position.value = 0;
+    };
 
     useEffect(() => {
         const subscription = AppState.addEventListener('change', nextAppState => {
-            if (
-                appStateVisible.match(/inactive|background/) &&
-                nextAppState === 'active'
-            ) {
-                console.log('App has come to the foreground!');
+            setAppState(nextAppState);
+            if (nextAppState === 'inactive' || nextAppState === 'background') {
+                setGamePaused(true);
+                clearInterval(enemyInterval.current);
+            } else {
+                enemyInterval.current = setInterval(() => {
+                    const randomX = Math.floor(Math.random() * 241) - 120;
+                    const newEnemyId = enemyIdCounter.current;
+                    const newEnemy = { id: newEnemyId, x: randomX, y: -850 };
+                    setEnemies(prevEnemies => [...prevEnemies, newEnemy]);
+                    enemyIdCounter.current += 1;
+                }, 3000);
             }
-
-            setAppStateVisible(nextAppState);
-            console.log('AppState', nextAppState);
         });
 
         return () => {
             subscription.remove();
         };
-    }, [appStateVisible]);
+    }, []);
 
     useEffect(() => {
         const enemyToRemove = enemies.find(enemy => enemy.y >= 100 && !enemiesReached100.includes(enemy.id) && !collidedEnemies.includes(enemy.id));
 
-        if (enemyToRemove) {
+        if (enemyToRemove && !gameOver) {
             setScore(prevScore => prevScore + (100 * multiplier));
             setEnemiesReached100(prevEnemiesReached100 => [...prevEnemiesReached100, enemyToRemove.id]);
         }
     }, [enemies, enemiesReached100]); // Include enemiesReached100 in dependency array
 
     useEffect(() => {
-        if (heart <= 0) {
-            setGameOver(true);
-            clearInterval(enemyInterval.current); // Stop spawning enemies when game over
-        }
+        const fetchData = async () => {
+            if (heart === 0) {
+                setGameOver(true);
+                clearInterval(enemyInterval.current); // Stop spawning enemies when game over
+                try {
+                    const response = await fetch('http://172.20.10.2/api/scoreSave', {
+                        method: 'POST',
+                        headers: {
+                            Accept: 'application/json',
+                            "Access-Control-Allow-Methods": "POST",
+                            "Access-Control-Allow-Origin": "*",
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            user: 1,
+                            score: score,
+                            hood: 'TheBronx'
+                        }),
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Failed to make API request');
+                    }
+
+                    // Handle successful API response if needed
+                    console.log(response);
+                } catch (error) {
+                    console.error('API request failed:', error);
+                }
+            }
+        };
+
+        fetchData();
     }, [heart]);
+
 
 
     const updateEnemyYPosition = useRef(null);
@@ -113,23 +163,27 @@ export default function App() {
         }, 500);
     };
 
+
     useEffect(() => {
-        const interval = setInterval(() => {
-            setEnemies(prevEnemies => {
-                const updatedEnemies = prevEnemies.map(enemy => {
-                    if (enemy.y < 100) {
-                        const newY = enemy.y + 47.5; // Example: Move 5 units downwards every 0.5 seconds
-                        return { ...enemy, y: newY };
-                    }
-                    return enemy; // If enemy.y is already larger than 100, return the enemy without modification
+        if (!gamePaused) {
+            const interval = setInterval(() => {
+                setEnemies(prevEnemies => {
+                    const updatedEnemies = prevEnemies.map(enemy => {
+                        if (enemy.y < 100) {
+                            const newY = enemy.y + 47.5; // Move 5 units downwards every 0.5 seconds
+                            return { ...enemy, y: newY };
+                        }
+                        return enemy; // If enemy.y is already larger than 100, return the enemy without modification
+                    });
+                    return updatedEnemies;
                 });
-                return updatedEnemies;
-            });
-        }, 500); // Run every 0.5 seconds (500 milliseconds)
+            }, 500); // Run every 0.5 seconds (500 milliseconds)
 
-        return () => clearInterval(interval); // Clean up the interval on component unmount
-    }, [gameOver]);
+            return () => clearInterval(interval); // Clean up the interval on component unmount
+        }
 
+
+    }, [gameOver, gamePaused]);
 
 
     useEffect(() => {
@@ -139,10 +193,12 @@ export default function App() {
 
             if (Math.abs(enemy.x - position.value) < collisionRange) {
                 if (Math.abs(enemy.y + 200) < 20) {
-                    setHeart(heart - 1);
-                    setCollidedEnemies(prevState => [...prevState, enemy.id])
-                    setCollisionPosition({ x: enemy.x, y: enemy.y });
-                    setExplosionPlayed(true);
+                    if(!gameOver){
+                        setHeart(heart - 1);
+                        setCollidedEnemies(prevState => [...prevState, enemy.id])
+                        setCollisionPosition({ x: enemy.x, y: enemy.y });
+                        setExplosionPlayed(true);
+                    }
                 }
             }
         });
@@ -158,11 +214,19 @@ export default function App() {
     }, [explosionPlayed]);
 
     return (
-        <ImageBackground source = {require('./assets/images/background.jpeg')} style = {styles.background}>
+        <ImageBackground source = {require('../assets/images/background.jpeg')} style = {styles.background}>
             <View style={styles.container}>
+                {gamePaused && (
+                    <TouchableOpacity
+                        style={styles.pauseOverlay}
+                        onPress={() => setGamePaused(false)}
+                    >
+                        <Text style={styles.pauseText}>Game Paused</Text>
+                    </TouchableOpacity>
+                )}
                 {Object.keys(collisionPosition).length !== 0 && (
                     <Animated.Image
-                        source={require('./assets/images/boom-unscreen.gif')}
+                        source={require('../assets/images/boom-unscreen.gif')}
                         style={[
                             styles.explosion,
                             { transform: [{ translateX: collisionPosition.x }, { translateY: -100 }] },
@@ -175,6 +239,10 @@ export default function App() {
                     <View style={styles.overlay}>
                         <View style={styles.gameOverPopup}>
                             <Text style={styles.gameOverText}>Game Over!</Text>
+                            <Text style={styles.gameOverText}>Score: {score}</Text>
+                            <TouchableOpacity onPress={resetGame} style={styles.retryButton}>
+                                <Text style={styles.retryButtonText}>RETRY</Text>
+                            </TouchableOpacity>
                         </View>
                     </View>
                 )}
@@ -188,6 +256,8 @@ export default function App() {
                             onYChange={(y) => handleEnemyYChange(y, index)}
                             gameOver={gameOver}
                             index = {index}
+                            isCollided={collidedEnemies.includes(enemy.id)} // Pass isCollided prop
+                            paused = {gamePaused}
                         />
                     ))}
                     <GestureDetector gesture={panGesture}>
@@ -195,7 +265,7 @@ export default function App() {
                             style={[styles.box, { transform: [{ translateX: position }] }]}
                         >
                             <Image
-                                source={require('./assets/images/spaceship1.gif')}
+                                source={require('../assets/images/spaceship1.gif')}
                                 style={styles.image}
                             />
                         </Animated.View>
@@ -211,7 +281,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'flex-end',
         alignItems: 'center',
-        fontFamily: 'VT'
+        fontFamily: 'VT',
     },
     box: {
         height: 120,
@@ -246,12 +316,14 @@ const styles = StyleSheet.create({
         padding: 20,
         borderRadius: 10,
         backgroundColor: '#333',
+        width: "80%"
     },
     gameOverText: {
         color: '#fff',
-        fontSize: 32,
+        fontSize: 70,
         fontWeight: 'bold',
-        fontFamily: 'VT'
+        fontFamily: 'VT',
+        textAlign: "center"
     },
     explosion: {
         position: 'absolute',
@@ -262,5 +334,30 @@ const styles = StyleSheet.create({
     },
     background: {
         flex: 1,
+    },
+    pauseOverlay: {
+        ...StyleSheet.absoluteFillObject,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        justifyContent: 'center',
+        alignItems: 'center',
+        zIndex: 100,
+    },
+    pauseText: {
+        fontSize: 30,
+        color: '#fff',
+        fontFamily: 'VT',
+    },
+    retryButton: {
+        backgroundColor: 'green',
+        paddingVertical: 15,
+        paddingHorizontal: 40,
+        borderRadius: 5,
+        marginTop: 10
+    },
+    retryButtonText: {
+        color: 'white',
+        fontSize: 70,
+        textAlign: "center",
+        fontFamily: "VT"
     },
 });

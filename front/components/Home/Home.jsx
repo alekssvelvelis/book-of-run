@@ -3,7 +3,6 @@ import { Text, View, Image, TouchableWithoutFeedback, Keyboard, TouchableOpacity
 import { useNavigation } from '@react-navigation/native';
 import { removeToken, getToken } from '../../utils/storageUtils';
 const Home = ({ onLogout, isLoggedIn, loginToken}) => {
-    
     const navigation = useNavigation();
     const goToLeaderboard = () => {
         navigation.navigate('Leaderboard');
@@ -11,11 +10,15 @@ const Home = ({ onLogout, isLoggedIn, loginToken}) => {
     const goToProfile = () => {
         navigation.navigate('Profile');
     };
+
+    const goToGame = () => {
+        navigation.navigate('Game');
+    }
     const handleLogout = async () => {
         const logoutToken = await getToken();
         console.log('logout token', logoutToken);
         try {
-            const response = await fetch('http://192.168.1.24/api/logout', {
+            const response = await fetch('http://172.20.10.2/api/logout', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -36,9 +39,11 @@ const Home = ({ onLogout, isLoggedIn, loginToken}) => {
     };
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss} style={{flex: 1,}}>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} style={{flex: 1}}>
         <View style={{flex: 1, justifyContent: 'center'}}>
-            <Image source={require('../../assets/play.png')} />
+            <TouchableOpacity onPress={goToGame} style={{ marginTop: 4, marginBottom: 4}}>
+                <Image source={require('../../assets/play.png')} />
+            </TouchableOpacity>
             <TouchableOpacity onPress={goToLeaderboard} style={{ marginTop: 4, marginBottom: 4}}>
                 <Image source={require('../../assets/leaderboard.png')} />
             </TouchableOpacity>

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { View } from 'react-native';
 import Home from '../components/Home/Home';
+import Game from "./Game";
 const HomeScreen = ({ onLogout, isLoggedIn, loginToken }) => {
 
     return (

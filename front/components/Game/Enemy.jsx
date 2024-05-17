@@ -1,29 +1,29 @@
 import React, { useEffect, useRef, memo } from 'react';
 import { StyleSheet, Animated, View, Text } from 'react-native';
 
-const Enemy = ({ positionX, positionY, height, onYChange, gameOver, isCollided }) => {
+const Enemy = ({ positionX, positionY, height, onYChange, gameOver, isCollided, paused }) => {
     if (isCollided) {
-        return null; // Return null to render nothing if the game is over or the enemy has collided
+        return null;
     }
 
     const translateY = useRef(new Animated.Value(positionY)).current;
 
+
     useEffect(() => {
-        let animation;
-        if (!gameOver) {
-            animation = Animated.timing(translateY, {
+        if (paused || gameOver) {
+            translateY.stopAnimation();
+        } else {
+            const animation = Animated.timing(translateY, {
                 toValue: 100,
                 duration: 10000,
                 useNativeDriver: true,
             });
             animation.start();
+            return () => {
+                animation.stop();
+            };
         }
-        // Return cleanup function to stop animation when unmounted
-        return () => {
-            if (animation) animation.stop();
-            translateY.removeAllListeners();
-        };
-    }, [gameOver, translateY]);
+    }, [paused, translateY, gameOver]);
 
     useEffect(() => {
         // Update the Y value in the parent component when translateY changes
