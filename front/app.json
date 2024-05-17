@@ -15,7 +15,12 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "config": {
+        "universalLinks": {
+          "ios": "your-app://buycoins"
+        }
+      }
     },
     "android": {
       "adaptiveIcon": {
