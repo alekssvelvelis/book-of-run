@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4d80bbcc-ac5e-4983-9dc6-7a4d9f5e99b4" name="Changes" comment="added game" />
+    <list default="true" id="4d80bbcc-ac5e-4983-9dc6-7a4d9f5e99b4" name="Changes" comment="added game">
+      <change afterPath="$PROJECT_DIR$/front/assets/sounds/cyberbonk.mp3" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -28,7 +30,7 @@
         </map>
       </branch-storage>
     </favorite-branches>
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/front" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="ROOT_SYNC" value="DONT_SYNC" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -177,6 +179,7 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/front/assets/sounds" />
       <recent name="$PROJECT_DIR$/front/assets/fonts" />
       <recent name="$PROJECT_DIR$/front/assets/images" />
       <recent name="$PROJECT_DIR$/front/assets" />
@@ -210,7 +213,8 @@
       <workItem from="1712304431256" duration="30873000" />
       <workItem from="1713778723206" duration="41605000" />
       <workItem from="1715619819948" duration="13355000" />
-      <workItem from="1715640673838" duration="8566000" />
+      <workItem from="1715640641759" duration="41000" />
+      <workItem from="1715641767351" duration="6902000" />
     </task>
     <servers />
   </component>
