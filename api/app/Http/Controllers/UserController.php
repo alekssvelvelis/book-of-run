@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 use App\Models\User;
+use App\Modles\Upgrade;
 
 class UserController extends Controller
 {
@@ -62,6 +63,12 @@ class UserController extends Controller
             'name' => $request->input('username'),
             'password' => Hash::make($request->input('confirm')),
         ]);
+
+        $upgrades = Upgrade::create([
+            'user_id' => $user->id,
+            'hearts' => 3
+        ]);
+
 
         return response()->json([
             'message' => 'User registered successfully',

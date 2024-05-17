@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Text, View, TextInput, Pressable, TouchableWithoutFeedback, Keyboard, ScrollView, StyleSheet, Animated } from 'react-native';
-import Svg, { Path } from 'react-native-svg';
 import { getToken } from '../../utils/storageUtils';
 import ChangePasswordModal from './ChangePasswordModal';
 import GameHistory from './GameHistory';
@@ -49,7 +48,7 @@ const Profile = () => {
     const getUserData = async () => {
       const token = await getToken();
       try {
-        const response = await fetch('http://192.168.1.24/api/getUserData', {
+        const response = await fetch('http://10.13.6.174/api/getUserData', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -98,7 +97,7 @@ const Profile = () => {
     if(Object.keys(newErrors).length === 0){
       try {
         const token = await getToken();
-        const response = await fetch('http://192.168.1.24/api/updateUserData', {
+        const response = await fetch('http://10.13.6.174/api/updateUserData', {
           method: 'PUT',
           headers: {
             Accept: 'application/json',
@@ -202,10 +201,11 @@ const styles = StyleSheet.create({
     display: 'flex', 
     alignItems: 'center', 
     justifyContent: 'center',
-    marginTop: 20, 
+    marginTop: 10, 
     color: 'white', 
     borderRadius: 20,
-    marginLeft: 30
+    marginLeft: 30,
+    marginBottom: 30,
   },
   textLengthCounter: {
     position: 'absolute',

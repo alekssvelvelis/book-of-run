@@ -9,6 +9,7 @@ import AuthorizeScreen from './screens/AuthorizeScreen';
 import HomeScreen from './screens/HomeScreen';
 import LeaderboardScreen from './screens/LeaderboardScreen';
 import ProfileScreen from './screens/ProfileScreen';
+import ShopScreen from './screens/ShopScreen';
 
 const Stack = createStackNavigator();
 export default function App() {
@@ -52,6 +53,7 @@ export default function App() {
               </Stack.Screen>
               <Stack.Screen name="Leaderboard" component={LeaderboardScreen} options={{ headerStyle: { backgroundColor: '#242424' }, headerTintColor: 'white', }}/>
               <Stack.Screen name="Profile" component={ProfileScreen} options={{ headerStyle: { backgroundColor: '#242424' }, headerTintColor: 'white', }}/>
+              <Stack.Screen name="Shop" component={ShopScreen} options={{ headerStyle: { backgroundColor: '#242424' }, headerTintColor: 'white', }}/>
             {/* Add more screens here */}
             </>
           :
