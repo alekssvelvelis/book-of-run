@@ -56,7 +56,7 @@ const Home = ({ onLogout, isLoggedIn, loginToken}) => {
 
 
     useEffect(() => {
-        const handleLogout = async () => {
+        const handleUserCoins = async () => {
             const logoutToken = await getToken();
             console.log('logout token', logoutToken);
             try {
@@ -82,18 +82,17 @@ const Home = ({ onLogout, isLoggedIn, loginToken}) => {
             }
         };
 
-        handleLogout();
+        handleUserCoins();
     }, [coins]);
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} style={{flex: 1}}>
         <View style={{flex: 1, justifyContent: 'center'}}>
-            <Image source={require('../../assets/images/play.png')} />
             <TouchableOpacity onPress={goToBuy} style={{ position: 'absolute', top: 6, right: -24, marginTop: 4, marginBottom: 4}}>
                 <Text style={{color: 'white', fontSize: 32, fontWeight: 400, fontFamily: "VT"}}>BUY - {coins}</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={goToGame} style={{ marginTop: 4, marginBottom: 4}}>
-                <Image source={require('../../assets/play.png')} />
+                <Image source={require('../../assets/images/play.png')} />
             </TouchableOpacity>
             <TouchableOpacity onPress={goToLeaderboard} style={{ marginTop: 4, marginBottom: 4}}>
                 <Image source={require('../../assets/images/leaderboard.png')} />

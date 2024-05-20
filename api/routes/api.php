@@ -40,6 +40,8 @@ Route::post('/asdasdasd', [PaymentController::class, 'makeMargungijs']);
 
 Route::get('/testtest', [PaymentController::class, 'returnCoins']);
 
+Route::post('/123123123', [UserController::class, 'makeMargungijsHearts']);
+
 Route::middleware('auth:sanctum')->group(function () {
     // Your authenticated routes here
     Route::post('/logout', [UserController::class, 'logout']);
@@ -48,6 +50,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/updateUserPassword', [UserController::class, 'updateUserPassword']);
     Route::get('/getUserCoin', [UserController::class, 'getUserCoin']);
     Route::get('/createPaymentIntent', [PaymentController::class, 'createPaymentIntent']);
-
+    Route::get('/getUserHearts', [UserController::class, 'getUserHearts']);
+    Route::put('/buyHearts', [PaymentController::class, 'buyHearts']);
 });
 

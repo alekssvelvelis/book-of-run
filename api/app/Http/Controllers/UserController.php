@@ -9,9 +9,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Models\Coin;
-
 use App\Models\User;
-use App\Modles\Upgrade;
+use App\Models\Upgrade;
 
 class UserController extends Controller
 {
@@ -35,9 +34,12 @@ class UserController extends Controller
         if (Hash::check($request->input('password'), $user->password)) {
             $token = $user->createToken('authToken')->plainTextToken;
 
+//            $upgrade = Upgrade::where('user_id', $request->user()->id)->first();
+
             return response()->json([
                 'message' => 'Login successful',
                 'access_token' => $token,
+//                'hearts' => $upgrade,
                 'user' => $user,
             ]);
         } else {
@@ -71,7 +73,7 @@ class UserController extends Controller
             'hearts' => 3
         ]);
 
-        Coin::create([[
+        $coins = Coin::create([[
             'user' => $user->id,
             'coins' => 0
         ]]);
@@ -182,6 +184,23 @@ class UserController extends Controller
 //        Log::info($bearerToken);
         return response()->json([
            'user' => User::with('coin')->where('id', $request->user()->id)->first()
+        ], 200);
+    }
+
+    public function getUserHearts(Request $request){
+        return response()->json([
+            'hearts' => Upgrade::where('user_id', $request->user()->id)->first()
+        ], 200);
+    }
+
+    public function makeMargungijsHearts(){
+        $upgrade = Upgrade::create([
+            'user_id' => 1,
+            'hearts' => 3
+        ]);
+
+        return response()->json([
+            'hearts' => $upgrade
         ], 200);
     }
 }

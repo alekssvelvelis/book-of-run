@@ -7,27 +7,54 @@
     <list default="true" id="4d80bbcc-ac5e-4983-9dc6-7a4d9f5e99b4" name="Changes" comment="added night work actually lol">
       <change afterPath="$PROJECT_DIR$/front/assets/fonts/PressStart2P-Regular.ttf" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/front/react-native.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/book-of-run.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/book-of-run.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/phpspec.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/phpspec.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/app/Http/Controllers/PaymentController.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/app/Http/Controllers/PaymentController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/app/Http/Controllers/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/app/Http/Controllers/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/app/Models/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/app/Models/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/database/migrations/2024_05_16_193604_create_personal_access_tokens_table.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/app/Models/Coin.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/app/Models/Coin.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/app/Models/Upgrade.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/app/Models/Upgrade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/database/migrations/2024_05_17_092552_create_upgrades_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/database/migrations/2024_05_17_092552_create_upgrades_table.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/routes/api.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/front/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front/app.json" beforeDir="false" afterPath="$PROJECT_DIR$/front/app.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/assets/SpaceKing.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/assets/adaptive-icon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/assets/bronze.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/assets/diamond.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/assets/favicon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/assets/gold.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/assets/icon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/assets/leaderboard.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/assets/logout.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/assets/play.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/assets/profile.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/assets/shop.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/assets/silver.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/assets/splash.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/components/Authorize/Login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/front/components/Authorize/Login.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/components/Authorize/Register.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/front/components/Authorize/Register.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front/components/Home/Home.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/front/components/Home/Home.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/components/Leaderboard/Leaderboard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/front/components/Leaderboard/Leaderboard.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/components/Profile/ChangePasswordModal.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/front/components/Profile/ChangePasswordModal.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/components/Profile/Profile.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/front/components/Profile/Profile.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/front/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/front/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/screens/AuthorizeScreen.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/front/screens/AuthorizeScreen.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/utils/storageUtils.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/front/utils/storageUtils.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="ComposerConfigs">
+    <option name="configs">
+      <option value="$PROJECT_DIR$/api/composer.json" />
+    </option>
+  </component>
   <component name="ComposerSettings" synchronizationState="SYNCHRONIZE">
-    <pharConfigPath>$PROJECT_DIR$/api/composer.json</pharConfigPath>
+    <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
     <execution />
   </component>
   <component name="Git.Settings">
@@ -44,7 +71,7 @@
         </map>
       </branch-storage>
     </favorite-branches>
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/front" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="ROOT_SYNC" value="DONT_SYNC" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -52,6 +79,8 @@
   </component>
   <component name="PhpWorkspaceProjectConfiguration" interpreter_name="/opt/homebrew/Cellar/php/8.2.10/bin/php">
     <include_path>
+      <path value="$PROJECT_DIR$/vendor/composer" />
+      <path value="$PROJECT_DIR$/vendor/stripe/stripe-php" />
       <path value="$PROJECT_DIR$/api/vendor/symfony/console" />
       <path value="$PROJECT_DIR$/api/vendor/symfony/event-dispatcher" />
       <path value="$PROJECT_DIR$/api/vendor/symfony/var-dumper" />
@@ -69,11 +98,13 @@
       <path value="$PROJECT_DIR$/api/vendor/symfony/polyfill-mbstring" />
       <path value="$PROJECT_DIR$/api/vendor/hamcrest/hamcrest-php" />
       <path value="$PROJECT_DIR$/api/vendor/monolog/monolog" />
+      <path value="$PROJECT_DIR$/api/vendor/laravel/sanctum" />
       <path value="$PROJECT_DIR$/api/vendor/nesbot/carbon" />
       <path value="$PROJECT_DIR$/api/vendor/nikic/php-parser" />
       <path value="$PROJECT_DIR$/api/vendor/laravel/sail" />
       <path value="$PROJECT_DIR$/api/vendor/laravel/prompts" />
       <path value="$PROJECT_DIR$/api/vendor/laravel/pint" />
+      <path value="$PROJECT_DIR$/api/vendor/stripe/stripe-php" />
       <path value="$PROJECT_DIR$/api/vendor/laravel/tinker" />
       <path value="$PROJECT_DIR$/api/vendor/laravel/serializable-closure" />
       <path value="$PROJECT_DIR$/api/vendor/laravel/framework" />
@@ -164,8 +195,6 @@
       <path value="$PROJECT_DIR$/api/vendor/symfony/polyfill-php72" />
       <path value="$PROJECT_DIR$/api/vendor/symfony/event-dispatcher-contracts" />
       <path value="$PROJECT_DIR$/api/vendor/symfony/polyfill-intl-idn" />
-      <path value="$PROJECT_DIR$/api/vendor/laravel/sanctum" />
-      <path value="$PROJECT_DIR$/api/vendor/stripe/stripe-php" />
     </include_path>
   </component>
   <component name="ProjectColorInfo">{
@@ -230,6 +259,8 @@
       <workItem from="1715619819948" duration="13355000" />
       <workItem from="1715640641759" duration="41000" />
       <workItem from="1715641767351" duration="17337000" />
+      <workItem from="1715938682571" duration="2607000" />
+      <workItem from="1715941361287" duration="4024000" />
     </task>
     <task id="LOCAL-00001" summary="added night work actually lol">
       <option name="closed" value="true" />

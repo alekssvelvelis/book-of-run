@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Text, View, TextInput, TouchableOpacity, Pressable, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
-import { storeToken } from '../../utils/storageUtils.jsx';
+import { storeToken, storeHearts } from '../../utils/storageUtils.jsx';
 const Login = ({ sendCard, navigation, onLogin, setLoginToken }) => {
   const [isPasswordRevealed, setPasswordRevealed] = useState(false);
   const [errors, setErrors] = useState({}); 
@@ -60,9 +60,6 @@ const Login = ({ sendCard, navigation, onLogin, setLoginToken }) => {
 
     setErrors(newErrors);
     if(Object.keys(newErrors).length === 0){
-
-      console.log('here')
-      console.log(Object.keys(newErrors).length, 'length in login');
       const backendErrors = {};
         try {
           const response = await fetch('http://172.20.10.2/api/login', {   //get local ip running ipconfig getifaddr en0 in mac terminal or through network settings. Also can find in expo start terminal, under metro hosted ip.
@@ -76,6 +73,8 @@ const Login = ({ sendCard, navigation, onLogin, setLoginToken }) => {
             body: JSON.stringify(formData),
           });
           const responseData = await response.json();
+
+          console.log(responseData)
           if (!response.ok) {
             if (responseData.error === 'Username is unrecognized') {
               backendErrors.username = 'User not found';
@@ -84,8 +83,11 @@ const Login = ({ sendCard, navigation, onLogin, setLoginToken }) => {
             }
             setErrors(backendErrors);
           } else {
+            console.log(responseData.access_token)
             onLogin();
+
             setLoginToken(responseData.access_token);
+            // storeHearts(responseData.hearts);
             storeToken(responseData.access_token);
             navigation.navigate('Home');
           }

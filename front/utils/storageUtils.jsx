@@ -9,6 +9,15 @@ export const storeToken = async (token) => {
   }
 };
 
+export const storeHearts = async (hearts) => {
+  try {
+    await AsyncStorage.setItem('hearts', hearts);
+    console.log('Token stored successfully!', hearts);
+  } catch (error) {
+    console.error('Error storing token:', error);
+  }
+};
+
 export const getToken = async () => {
   try {
     const token = await AsyncStorage.getItem('authToken');

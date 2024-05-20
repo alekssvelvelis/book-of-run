@@ -17,6 +17,8 @@
   </component>
   <component name="PhpIncludePathManager">
     <include_path>
+      <path value="$PROJECT_DIR$/vendor/composer" />
+      <path value="$PROJECT_DIR$/vendor/stripe/stripe-php" />
       <path value="$PROJECT_DIR$/api/vendor/symfony/console" />
       <path value="$PROJECT_DIR$/api/vendor/symfony/event-dispatcher" />
       <path value="$PROJECT_DIR$/api/vendor/symfony/var-dumper" />
@@ -34,11 +36,13 @@
       <path value="$PROJECT_DIR$/api/vendor/symfony/polyfill-mbstring" />
       <path value="$PROJECT_DIR$/api/vendor/hamcrest/hamcrest-php" />
       <path value="$PROJECT_DIR$/api/vendor/monolog/monolog" />
+      <path value="$PROJECT_DIR$/api/vendor/laravel/sanctum" />
       <path value="$PROJECT_DIR$/api/vendor/nesbot/carbon" />
       <path value="$PROJECT_DIR$/api/vendor/nikic/php-parser" />
       <path value="$PROJECT_DIR$/api/vendor/laravel/sail" />
       <path value="$PROJECT_DIR$/api/vendor/laravel/prompts" />
       <path value="$PROJECT_DIR$/api/vendor/laravel/pint" />
+      <path value="$PROJECT_DIR$/api/vendor/stripe/stripe-php" />
       <path value="$PROJECT_DIR$/api/vendor/laravel/tinker" />
       <path value="$PROJECT_DIR$/api/vendor/laravel/serializable-closure" />
       <path value="$PROJECT_DIR$/api/vendor/laravel/framework" />
@@ -129,8 +133,6 @@
       <path value="$PROJECT_DIR$/api/vendor/symfony/polyfill-php72" />
       <path value="$PROJECT_DIR$/api/vendor/symfony/event-dispatcher-contracts" />
       <path value="$PROJECT_DIR$/api/vendor/symfony/polyfill-intl-idn" />
-      <path value="$PROJECT_DIR$/api/vendor/laravel/sanctum" />
-      <path value="$PROJECT_DIR$/api/vendor/stripe/stripe-php" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.2" />

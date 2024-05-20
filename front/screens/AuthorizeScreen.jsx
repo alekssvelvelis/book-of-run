@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect } from 'react';
 import { View, Animated, TouchableOpacity, Easing } from 'react-native';
 import Login from '../components/Authorize/Login';
 import Register from '../components/Authorize/Register';
+import { getToken } from "../utils/storageUtils";
 class AuthorizeScreen extends Component {
   constructor(props) {
     super(props);

@@ -51,7 +51,7 @@ const ChangePasswordModal = ({toggleModal}) => {
             console.log(Object.keys(newErrors).length, 'length in change password');
             try {
                 const token = await getToken();
-                const response = await fetch('http://10.13.6.174/api/updateUserPassword', {
+                const response = await fetch('http://172.20.10.2/api/updateUserPassword', {
                   method: 'PUT',
                   headers: {
                     Accept: 'application/json',

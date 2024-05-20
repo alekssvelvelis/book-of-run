@@ -97,7 +97,7 @@ const Profile = () => {
     if(Object.keys(newErrors).length === 0){
       try {
         const token = await getToken();
-        const response = await fetch('http://10.13.6.174/api/updateUserData', {
+        const response = await fetch('http://172.20.10.2/api/updateUserData', {
           method: 'PUT',
           headers: {
             Accept: 'application/json',

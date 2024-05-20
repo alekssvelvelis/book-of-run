@@ -17,6 +17,7 @@ import BackgroundMusic from "./utils/music";
 import {useFonts} from "expo-font";
 
 const Stack = createStackNavigator();
+
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(null);
   const [token, setToken] = useState(null);
@@ -77,55 +78,44 @@ export default function App() {
   }, [handleDeepLink]);
 
   return (
-      <StripeProvider publishableKey= "pk_test_51P28YvP2bxrnQ5RhmWDK0oB42kWbMG4lOs1qk26FtEB7Nv05ZQpTKm97ILFiAvoPjQw48sS37eUsq0UkRBZjCG9v00EaNZxnkl">
-      <View style={styles.container}>
-        <BackgroundMusic />
-        <NavigationContainer>
-          <Stack.Navigator>
-            {isLoggedIn ?
-              <>
-                <Stack.Screen
-                  name="Home"
-                  options={{
-                    headerStyle: { backgroundColor: '#242424' },
-                    headerTintColor: 'white',
-                  }}
-                >
-                  {(props) => <HomeScreen {...props} onLogout={handleLogout} isLoggedIn={isLoggedIn} loginToken={loginToken} />}
-                </Stack.Screen>
-                <Stack.Screen name="Buy" component={BuyCoins} options={{ headerStyle: { backgroundColor: '#242424' }, headerTintColor: 'white', }} style={styles.customFont}/>
-                <Stack.Screen name="Leaderboard" component={LeaderboardScreen} options={{ headerStyle: { backgroundColor: '#242424' }, headerTintColor: 'white', }}/>
-                <Stack.Screen name="Profile" component={ProfileScreen} options={{ headerStyle: { backgroundColor: '#242424' }, headerTintColor: 'white', }}/>
-                <Stack.Screen name="Game" component={Game} options={{ headerStyle: { backgroundColor: '#242424' }, headerTintColor: 'white', }}/>
-                {/* Add more screens here */}
-              </>
-            :
-            <Stack.Screen name="Authorize"
-                options={{
-                  headerStyle: { backgroundColor: '#242424' },
-                  headerTintColor: 'white',
-                }}
-              >
-                {(props) => <HomeScreen {...props} onLogout={handleLogout} isLoggedIn={isLoggedIn} loginToken={loginToken} />}
-              </Stack.Screen>
-              <Stack.Screen name="Leaderboard" component={LeaderboardScreen} options={{ headerStyle: { backgroundColor: '#242424' }, headerTintColor: 'white', }}/>
-              <Stack.Screen name="Profile" component={ProfileScreen} options={{ headerStyle: { backgroundColor: '#242424' }, headerTintColor: 'white', }}/>
-              <Stack.Screen name="Shop" component={ShopScreen} options={{ headerStyle: { backgroundColor: '#242424' }, headerTintColor: 'white', }}/>
-            {/* Add more screens here */}
-            </>
-          :
-          <Stack.Screen name="Authorize"
-              options={{
-              headerStyle: { backgroundColor: '#242424' },
-              headerTintColor: 'white',
-            }}
-          >
-            {(props) => <AuthorizeScreen {...props} onLogin={handleLogin} setLoginToken={setLoginToken}/>}
-          </Stack.Screen>
-          }
-        </Stack.Navigator>
-      </NavigationContainer>
-    </View>
+      <StripeProvider publishableKey="pk_test_51P28YvP2bxrnQ5RhmWDK0oB42kWbMG4lOs1qk26FtEB7Nv05ZQpTKm97ILFiAvoPjQw48sS37eUsq0UkRBZjCG9v00EaNZxnkl">
+        <View style={styles.container}>
+          <BackgroundMusic />
+          <NavigationContainer>
+            <Stack.Navigator>
+              {isLoggedIn ?
+                  <>
+                    <Stack.Screen
+                        name="Home"
+                        options={{
+                          headerStyle: { backgroundColor: '#242424' },
+                          headerTintColor: 'white',
+                        }}
+                    >
+                      {(props) => <HomeScreen {...props} onLogout={handleLogout} isLoggedIn={isLoggedIn} loginToken={loginToken} />}
+                    </Stack.Screen>
+                    <Stack.Screen name="Buy" component={BuyCoins} options={{ headerStyle: { backgroundColor: '#242424' }, headerTintColor: 'white', }}/>
+                    <Stack.Screen name="Leaderboard" component={LeaderboardScreen} options={{ headerStyle: { backgroundColor: '#242424' }, headerTintColor: 'white', }}/>
+                    <Stack.Screen name="Profile" component={ProfileScreen} options={{ headerStyle: { backgroundColor: '#242424' }, headerTintColor: 'white', }}/>
+                    <Stack.Screen name="Game" component={Game} options={{ headerStyle: { backgroundColor: '#242424' }, headerTintColor: 'white', }}/>
+                    <Stack.Screen name="Shop" component={ShopScreen} options={{ headerStyle: { backgroundColor: '#242424' }, headerTintColor: 'white', }}/>
+                  </>
+                  :
+                  <Stack.Screen
+                      name="Authorize"
+                      options={{
+                        headerStyle: {
+                          backgroundColor: '#242424' },
+                          headerTintColor: 'white',
+                      }}
+                  >
+                    {(props) => <AuthorizeScreen {...props} onLogin={handleLogin} setLoginToken={setLoginToken}/>}
+                  </Stack.Screen>
+              }
+            </Stack.Navigator>
+          </NavigationContainer>
+        </View>
+      </StripeProvider>
   );
 }
 

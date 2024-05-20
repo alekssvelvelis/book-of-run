@@ -3,10 +3,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Score;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Stripe\StripeClient;
 use Stripe\Exception\ApiErrorException;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Coin;
+
+use App\Models\Upgrade;
 
 class PaymentController extends Controller
 {
@@ -78,5 +82,36 @@ class PaymentController extends Controller
         return response()->json([
             "coin" => Coin::all()
         ], 200);
+    }
+
+    public function buyHearts(Request $request){
+            try{
+                $user = $request->user();
+                $validator = Validator::make($request->all(), [
+                    'price' => 'required',
+                ]);
+
+                if ($validator->fails()) {
+                    return response()->json(['errors' => $validator->errors()], 422);
+                }
+
+                $coins = Coin::where('user', $user->id)->first();
+
+                if($coins->coins < 500){
+                    return;
+                }
+
+                $coins->coins -= 500;
+                $coins->save();
+
+                $upgrade = Upgrade::where('user_id', $user->id)->first();
+                $upgrade->hearts += 1;
+                $upgrade->save();
+
+                return response()->json(['message' => 'Password updated succesfully']);
+            } catch (\Exception $e) {
+                Log::error($e->getMessage());
+                return response()->json(['error' => 'Internal Server Error'], 500);
+            }
     }
 }

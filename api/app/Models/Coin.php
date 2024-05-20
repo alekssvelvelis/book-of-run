@@ -10,6 +10,4 @@ class Coin extends Model
     use HasFactory;
 
     protected $fillable = ['user', 'coins'];
-
-
 }

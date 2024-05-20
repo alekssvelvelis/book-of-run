@@ -86,11 +86,11 @@ const BuyCoinsComponent = () => {
     return (
         <ScrollView style={styles.scrollView}>
             <View style={styles.container}>
-                <TouchableOpacity
-                    style={styles.backButton}
-                    onPress={() => navigation.goBack()}>
-                    <Text style={styles.backButtonText}>Back</Text>
-                </TouchableOpacity>
+                {/*<TouchableOpacity*/}
+                {/*    style={styles.backButton}*/}
+                {/*    onPress={() => navigation.goBack()}>*/}
+                {/*    <Text style={styles.backButtonText}>Back</Text>*/}
+                {/*</TouchableOpacity>*/}
                 <Text style={styles.header}> BUY COINS</Text>
                 {coinsData.map((coin, index) => (
                     <View key={index} style={styles.infoBox}>
