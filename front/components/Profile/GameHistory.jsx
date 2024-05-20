@@ -17,7 +17,6 @@ const GameHistory = () => {
     { id: 7, score: 35 },
   ];
 
-  // {gameHistory.length - index}
   useEffect(() => {
     const getUserGames = async () => {
       const token = await getToken();
