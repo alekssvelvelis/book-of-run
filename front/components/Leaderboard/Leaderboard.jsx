@@ -2,22 +2,6 @@ import React, {useEffect, useState} from 'react';
 import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
 
 function Leaderboard() {
-    const dummyData = [
-        { username: 'User1', score: 90 },
-        { username: 'User2', score: 100 },
-        { username: 'User3', score: 85 },
-        { username: 'User4', score: 87 },
-        { username: 'User5', score: 95 },
-        { username: 'User6', score: 75 },
-        { username: 'User7', score: 82 },
-        { username: 'User8', score: 78 },
-        { username: 'User9', score: 65 },
-        { username: 'User10', score: 70 },
-        { username: 'User11', score: 50 },
-        { username: 'User12', score: 47 },
-        { username: 'User13', score: 45 },
-        { username: 'User14', score: 40 },
-    ];
 
     const [userData, setUserData] = useState([]);
 

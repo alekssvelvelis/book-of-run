@@ -7,15 +7,6 @@ const GameHistory = () => {
   const [sortBy, setSortBy] = useState('id');
   const [gameData, setGameData] = useState([]);
   const [transformedData, setTransformed] = useState([]);
-  const gameDummyData = [
-    { id: 1, score: 80 },
-    { id: 2, score: 95 },
-    { id: 3, score: 115 },
-    { id: 4, score: 60 },
-    { id: 5, score: 73 },
-    { id: 6, score: 11 },
-    { id: 7, score: 35 },
-  ];
 
   useEffect(() => {
     const getUserGames = async () => {

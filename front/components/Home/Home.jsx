@@ -3,7 +3,7 @@ import { Text, View, Image, TouchableWithoutFeedback, Keyboard, TouchableOpacity
 import { useNavigation } from '@react-navigation/native';
 import { removeToken, getToken } from '../../utils/storageUtils';
 import { useFonts } from "expo-font";
-const Home = ({ onLogout, isLoggedIn, loginToken}) => {
+const Home = ({ onLogout, isLoggedIn, loginToken, coin}) => {
     const [coins, setCoins] = useState(0);
     const [tokenLoaded, setTokenLoaded] = useState(false);
 
@@ -108,6 +108,10 @@ const Home = ({ onLogout, isLoggedIn, loginToken}) => {
             fetchUserCoins(loginToken);
         }
     }, [loginToken]);
+
+    useEffect(() => {
+        setCoins((coins+coin));
+      }, [coin]);
 
     // if (!tokenLoaded) {
     //     return (

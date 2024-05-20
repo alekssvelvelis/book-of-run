@@ -3,7 +3,7 @@ import { StyleSheet, View, Linking } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { getToken, removeToken, storeToken } from './utils/storageUtils';
-import {handleURLCallback, StripeProvider, useStripe} from "@stripe/stripe-react-native";
+import { handleURLCallback, StripeProvider, useStripe } from "@stripe/stripe-react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import AuthorizeScreen from './screens/AuthorizeScreen';
@@ -14,13 +14,14 @@ import ShopScreen from './screens/ShopScreen';
 import Game from "./screens/Game.jsx";
 import BuyCoins from "./components/BuyCoins";
 import BackgroundMusic from "./utils/music";
-import {useFonts} from "expo-font";
+import { useFonts } from "expo-font";
 
 const Stack = createStackNavigator();
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(null);
   const [token, setToken] = useState(null);
+  const [coins, setCoins] = useState(0);
   const [loginToken, setLoginToken] = useState('');
   const [fontsLoaded, fontError] = useFonts({
     'VT': require('./assets/fonts/VT323-Regular.ttf'),
@@ -36,14 +37,6 @@ export default function App() {
     checkLoginStatus();
   }, []);
 
-  // useEffect(() => {
-  //   const clearAll = async () => {
-  //     await AsyncStorage.clear();
-  //   };
-
-  //   clearAll();
-  // }, []);
-
   const handleLogin = async () => {
     setIsLoggedIn(true);
   };
@@ -56,15 +49,15 @@ export default function App() {
   const { handleURLCallback } = useStripe();
 
   const handleDeepLink = useCallback(
-      async (url) => {
-        if (url) {
-          const stripeHandled = await handleURLCallback(url);
-          if (stripeHandled) {
-          } else {
-          }
+    async (url) => {
+      if (url) {
+        const stripeHandled = await handleURLCallback(url);
+        if (stripeHandled) {
+        } else {
         }
-      },
-      [handleURLCallback]
+      }
+    },
+    [handleURLCallback]
   );
 
   useEffect(() => {
@@ -76,54 +69,59 @@ export default function App() {
     getUrlAsync();
 
     const deepLinkListener = Linking.addEventListener(
-        'url',
-        (event) => {
-          handleDeepLink(event.url);
-        }
+      'url',
+      (event) => {
+        handleDeepLink(event.url);
+      }
     );
 
     return () => deepLinkListener.remove();
   }, [handleDeepLink]);
 
+  const handleCoinsUpdate = (newCoins) => {
+    setCoins((prevCoins) => prevCoins + newCoins);
+  };
+
   return (
-      <StripeProvider publishableKey="pk_test_51P28YvP2bxrnQ5RhmWDK0oB42kWbMG4lOs1qk26FtEB7Nv05ZQpTKm97ILFiAvoPjQw48sS37eUsq0UkRBZjCG9v00EaNZxnkl">
-        <View style={styles.container}>
-          <BackgroundMusic />
-          <NavigationContainer>
-            <Stack.Navigator>
-              {isLoggedIn ?
-                  <>
-                    <Stack.Screen
-                        name="Home"
-                        options={{
-                          headerStyle: { backgroundColor: '#242424' },
-                          headerTintColor: 'white',
-                        }}
-                    >
-                      {(props) => <HomeScreen {...props} onLogout={handleLogout} isLoggedIn={isLoggedIn} loginToken={loginToken} />}
-                    </Stack.Screen>
-                    <Stack.Screen name="Buy" component={BuyCoins} options={{ headerStyle: { backgroundColor: '#242424' }, headerTintColor: 'white', }}/>
-                    <Stack.Screen name="Leaderboard" component={LeaderboardScreen} options={{ headerStyle: { backgroundColor: '#242424' }, headerTintColor: 'white', }}/>
-                    <Stack.Screen name="Profile" component={ProfileScreen} options={{ headerStyle: { backgroundColor: '#242424' }, headerTintColor: 'white', }}/>
-                    <Stack.Screen name="Game" component={Game} options={{ headerStyle: { backgroundColor: '#242424' }, headerTintColor: 'white', }}/>
-                    <Stack.Screen name="Shop" component={ShopScreen} options={{ headerStyle: { backgroundColor: '#242424' }, headerTintColor: 'white', }}/>
-                  </>
-                  :
-                  <Stack.Screen
-                      name="Authorize"
-                      options={{
-                        headerStyle: {
-                          backgroundColor: '#242424' },
-                          headerTintColor: 'white',
-                      }}
-                  >
-                    {(props) => <AuthorizeScreen {...props} onLogin={handleLogin} setLoginToken={setLoginToken}/>}
-                  </Stack.Screen>
-              }
-            </Stack.Navigator>
-          </NavigationContainer>
-        </View>
-      </StripeProvider>
+    <StripeProvider publishableKey="pk_test_51P28YvP2bxrnQ5RhmWDK0oB42kWbMG4lOs1qk26FtEB7Nv05ZQpTKm97ILFiAvoPjQw48sS37eUsq0UkRBZjCG9v00EaNZxnkl">
+      <View style={styles.container}>
+        <BackgroundMusic />
+        <NavigationContainer>
+          <Stack.Navigator>
+            {isLoggedIn ?
+              <>
+                <Stack.Screen
+                  name="Home"
+                  options={{
+                    headerStyle: { backgroundColor: '#242424' },
+                    headerTintColor: 'white',
+                  }}
+                >
+                  {(props) => <HomeScreen {...props} onLogout={handleLogout} isLoggedIn={isLoggedIn} loginToken={loginToken} coins={coins} />}
+                </Stack.Screen>
+                <Stack.Screen name="Buy" options={{ headerStyle: { backgroundColor: '#242424' }, headerTintColor: 'white' }}>
+                  {(props) => <BuyCoins {...props} onCoinsUpdate={handleCoinsUpdate} />}
+                </Stack.Screen>
+                <Stack.Screen name="Leaderboard" component={LeaderboardScreen} options={{ headerStyle: { backgroundColor: '#242424' }, headerTintColor: 'white' }} />
+                <Stack.Screen name="Profile" component={ProfileScreen} options={{ headerStyle: { backgroundColor: '#242424' }, headerTintColor: 'white' }} />
+                <Stack.Screen name="Game" component={Game} options={{ headerStyle: { backgroundColor: '#242424' }, headerTintColor: 'white' }} />
+                <Stack.Screen name="Shop" component={ShopScreen} options={{ headerStyle: { backgroundColor: '#242424' }, headerTintColor: 'white' }} />
+              </>
+              :
+              <Stack.Screen
+                name="Authorize"
+                options={{
+                  headerStyle: { backgroundColor: '#242424' },
+                  headerTintColor: 'white',
+                }}
+              >
+                {(props) => <AuthorizeScreen {...props} onLogin={handleLogin} setLoginToken={setLoginToken} />}
+              </Stack.Screen>
+            }
+          </Stack.Navigator>
+        </NavigationContainer>
+      </View>
+    </StripeProvider>
   );
 }
 
